@@ -10,20 +10,20 @@ public class Oop
         while(true)
         {
            displayMainMenu();
-           String choice = scanner.nextLine().toUpperCase(); //Bunu bizim yapmamız da gerekebilir
+           String choice = scanner.nextLine().toUpperCase(); //Bunu bizim yapmamız da gerekebilir fonksiyon kullanımında nasıl sınır var bakarız
            switch (choice)
            {
                case "A":
-                   //primarySchoolMenu(scanner);
+                   //primarySchoolMenu();
                    break;
                case "B":
-                   //secondarySchoolMenu(scanner);
+                   //secondarySchoolMenu();
                    break;
                case "C":
-                   //highSchoolMenu(scanner);
+                   //highSchoolMenu();
                    break;
                case "D":
-                   //universityMenu(scanner);
+                   //universityMenu();
                    break;
                case "E":
                    System.out.println("Terminating the application. Goodbye!");
