@@ -14,7 +14,7 @@ public class Oop
            switch (choice)
            {
                case "A":
-                   //primarySchoolMenu();
+                   primarySchoolMenu(scanner);
                    break;
                case "B":
                    //secondarySchoolMenu();
@@ -61,6 +61,38 @@ public class Oop
         System.out.println(RED + "              :");
         System.out.println(RESET);
     }
+    public static void primarySchoolMenu(Scanner scanner)
+    { // Screen should be cleared
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+
+        while (true) {
+            // Display Primary School submenu
+            System.out.println("\n--- Primary School Menu ---");
+            System.out.println("1. Age and Zodiac Sign Detection");
+            System.out.println("2. Reverse the Words");
+            System.out.println("3. Return to Main Menu");
+            System.out.print("Please select an operation: ");
+
+            String choice = scanner.nextLine();
+            switch (choice) {
+                case "1":
+                    //ageAndZodiacDetection(scanner);
+                    break;
+                case "2":
+                    //reverseWords(scanner);
+                    break;
+                case "3":
+                    return; // Go back to the main menu
+                default:
+                    System.out.println("Invalid option. Please try again.");
+            }
+            // After an operation, allow the user to repeat the selection or return
+            System.out.println("\nPress Enter to continue...");
+            scanner.nextLine();
+        }
+    }
+
 
     //Displays the main menu with options for different school levels.
     public static void displayMainMenu() {
