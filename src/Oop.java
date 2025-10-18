@@ -17,13 +17,13 @@ public class Oop
                    primarySchoolMenu(scanner);
                    break;
                case "B":
-                   //secondarySchoolMenu();
+                   //secondarySchoolMenu(scanner);
                    break;
                case "C":
-                   //highSchoolMenu();
+                   //highSchoolMenu(scanner);
                    break;
                case "D":
-                   //universityMenu();
+                   //universityMenu(scanner);
                    break;
                case "E":
                    System.out.println("Terminating the application. Goodbye!");
