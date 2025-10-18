@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.time.LocalDate;
 
 public class Oop
 {
@@ -117,12 +118,12 @@ public class Oop
     {
         // yaş hesaplama ve int yerine başka bir şey girilmesi durumunda çökmemesi için kod yazılmalı (try catch)
         int day, month, year;
-        //ageDetection(day, month, year);
+        //ageCalculator(day, month, year);
         //determineZodiacSign(day, month);
     }
 
     // Method to determine age
-    //ageDetection(int day, int month, int year){}
+    //ageCalculator(int day, int month, int year){}
 
     // Method to determine the zodiac sign (şimdilik kapalı, ageAndZodiacDetection() fonksiyonuna scanner ekleyince açarız)
     /*public static void determineZodiacSign(int day, int month)
