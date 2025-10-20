@@ -26,7 +26,7 @@ public class Oop
                    //highSchoolMenu(scanner);
                    break;
                case "D":
-                   //universityMenu(scanner);
+                   universityMenu(scanner);
                    break;
                case "E":
                    System.out.println("Terminating the application. Goodbye!");
@@ -82,13 +82,12 @@ public class Oop
     }
 
     public static void primarySchoolMenu(Scanner scanner)
-    { // Screen should be cleared
+    {   // Screen should be cleared
         System.out.print("\033[H\033[2J");
         System.out.flush();
 
         while (true)
-        {
-            // Display Primary School submenu
+        {   // Display Primary School submenu
             System.out.println("\n--- Primary School Menu ---");
             System.out.println("1. Age and Zodiac Sign Detection");
             System.out.println("2. Reverse the Words");
@@ -266,4 +265,73 @@ public class Oop
     }
 
 
+
+
+
+
+
+
+
+
+    public static void universityMenu(Scanner scanner)
+    {   // Screen should be cleared
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+
+        while(true)
+        {   // Display primary school submenu
+            System.out.println("\n--- Primary School Menu ---");
+            System.out.println("1. Connect Four");
+            System.out.println("2. Return to Main Menu");
+            System.out.print("Please select an operation: ");
+
+            String choice = scanner.nextLine();
+            switch (choice)
+            {
+                case "1":
+                    connectFour(scanner);
+                    break;
+                case "2":
+                    return; // Go back to the main menu
+                default:
+                    System.out.println("Invalid option. Please try again.");
+            }
+            // After an operation, allow the user to repeat the selection or return
+            System.out.println("\nPress Enter to continue...");
+            scanner.nextLine();
+        }
+    }
+
+    public static void connectFour(Scanner scanner)
+    {
+        while(true)
+        {   // Display connect four subsubmenu
+            System.out.println("\n--- Connect Four ---");
+            String choice = scanner.nextLine();
+            switch (choice)
+            {
+                case "1":
+                    //fiveToFour(scanner);
+                    break;
+                case "2":
+                    //sixToFive(scanner);
+                    break;
+                case "3":
+                    //sixToSeven(scanner);
+                    break;
+                case "4":
+                    return; // Go back to the main menu
+                default:
+                    System.out.println("Invalid option. Please try again.");
+            }
+
+            // burada co-op mu pcye karşı mı oynancak oranın seçeneğini sorarız switch case ile
+
+            // After an operation, allow the user to repeat the selection or return
+            System.out.println("\nPress Enter to continue...");
+            scanner.nextLine();
+        }
+    }
+
+    // fiveToFour(scanner) koodları buraya gelir önce array içinde map oluşur ordan da oynanış için kodları yaparız
 }
