@@ -1,6 +1,7 @@
 import java.util.Scanner;
 import java.time.LocalDate;
 import java.util.InputMismatchException;
+import java.time.LocalDate;
 
 public class Oop
 {
@@ -126,6 +127,7 @@ public class Oop
         boolean validDayInput = false;
         boolean leapYear = false;
         System.out.println("\n--- Age and Zodiac Sign Detection ---");
+
         // yıl doğru mu onu kontrol ediyor (fonksiyonlaştırılabilir)
         while(!validYearInput)
         {
@@ -189,12 +191,45 @@ public class Oop
             }
         }
 
-        //ageCalculator(day, month, year);
+        ageCalculator(day, month, year);
         determineZodiacSign(day, month);
     }
 
     // Method to determine age
-    //ageCalculator(int day, int month, int year){}
+    public static void ageCalculator(int day, int month, int year)
+    {
+        LocalDate today = LocalDate.now();
+        int currentYear = today.getYear();
+        int currentMonth = today.getMonthValue();
+        int currentDay = today.getDayOfMonth();
+
+        int userYear = currentYear - year;
+        int userMonth = currentMonth - month;
+        int userDay = currentDay - day;
+
+        int daysInPrevMonth = 0;
+        // Adjust for month and day differences
+        if (userDay < 0)
+        {
+            if(month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12)
+                daysInPrevMonth = 31;
+            else if(month == 4 || month == 6 || month == 9 || month == 11)
+                daysInPrevMonth = 30;
+            else if(month == 2 && (year % 4 == 0))
+                daysInPrevMonth = 29;
+            else
+                daysInPrevMonth = 28;
+            userMonth--;
+            userDay += daysInPrevMonth;
+        }
+        if (userMonth < 0)
+        {
+            userYear--;
+            userMonth += 12;
+        }
+        System.out.println("\n---Results---");
+        System.out.println("Your age is: " + userYear + "Year " + userMonth + "Month " + userDay + "Day");
+    }
 
     // Method to determine the zodiac sign
     public static void determineZodiacSign(int day, int month)
@@ -227,7 +262,7 @@ public class Oop
         } else {
             zodiacSign = "Invalid date";
         }
-        System.out.println("\nYour zodiac sign is: " + zodiacSign);
+        System.out.println("Your zodiac sign is: " + zodiacSign);
     }
 
 
