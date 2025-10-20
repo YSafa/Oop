@@ -1,5 +1,6 @@
 import java.util.Scanner;
 import java.time.LocalDate;
+import java.util.InputMismatchException;
 
 public class Oop
 {
@@ -117,16 +118,86 @@ public class Oop
     public static void ageAndZodiacDetection(Scanner scanner)
     {
         // yaş hesaplama ve int yerine başka bir şey girilmesi durumunda çökmemesi için kod yazılmalı (try catch)
-        int day, month, year;
+        int day = 0;
+        int month = 0;
+        int year = 0;
+        boolean validYearInput = false;
+        boolean validMonthInput = false;
+        boolean validDayInput = false;
+        boolean leapYear = false;
+        System.out.println("\n--- Age and Zodiac Sign Detection ---");
+        // yıl doğru mu onu kontrol ediyor (fonksiyonlaştırılabilir)
+        while(!validYearInput)
+        {
+            System.out.print("\nPlease enter the year of your birthday (e. g., 2004): ");
+            try // Attempt to get the numerical input.
+            {
+                year = scanner.nextInt();
+                if (year < 0 || year > 2025) // Is the numerical value in the correct range?
+                    System.err.println(" \nYour birth year must be between 0 and 2025: ");  // Numerical but out of valid range, print error and loop continues.
+                else    // Correct input style and it can be a year so continue
+                    validYearInput = true;
+            }catch (InputMismatchException e) // User entered text instead of an int.
+            {
+                System.err.println("Error! You did not enter a valid integer. Please enter only the year number.");
+                scanner.next();         // If this is not done, it will result in an infinite loop.
+            }
+        }
+        // System.out.println("\nYour birth year has been successfully recorded");     // Exited the loop, valid year is stored. (Gerek var mı idk)
+        if(year % 4 == 0)
+            leapYear = true;
+
+        // ay doğru mu onu kontrol ediyor
+        while(!validMonthInput)
+        {
+            System.out.print("\nPlease enter the month of your birthday (e. g., 9): ");
+            try // Attempt to get the numerical input.
+            {
+                month = scanner.nextInt();
+                if (month < 1 || month > 12) // Is the numerical value in the correct range?
+                    System.err.println(" \nYour birth month must be between 1 and 12: ");    // Numerical but out of valid range, print error and loop continues.
+                else    // Correct input style and it can be a month so continue
+                    validMonthInput = true;
+            }catch (InputMismatchException e) // User entered text instead of an int.
+            {
+                System.err.println("Error! You did not enter a valid integer. Please enter only the month number.");
+                scanner.next();         // If this is not done, it will result in an infinite loop.
+            }
+        }
+
+        // gün doğru mu onu kontrol ediyor
+        while(!validDayInput)
+        {
+            System.out.print("\nPlease enter the day of your birthday (e. g., 21): ");
+            try // Attempt to get the numerical input.
+            {
+                day = scanner.nextInt();
+                if((month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12) && (day > 0 && day < 32))
+                    validDayInput = true;   // Correct input style and it can be a day so continue
+                else if((month == 4 || month == 6 || month == 9 || month == 11) && (day > 0 && day < 31))
+                    validDayInput = true;   // Correct input style and it can be a day so continue
+                else if(month == 2 && (day > 0 && day < 29))
+                    validDayInput = true;   // Correct input style and it can be a day so continue
+                else if(month == 2 && leapYear && (day > 0 && day < 30))
+                    validDayInput = true;   // Correct input style and it can be a day so continue
+                else
+                    System.err.println(" \nYour birth day must be in correct gap: ");    // Numerical but out of valid range, print error and loop continues.
+            }catch (InputMismatchException e) // User entered text instead of an int.
+            {
+                System.err.println("Error! You did not enter a valid integer. Please enter only the day number.");
+                scanner.next();         // If this is not done, it will result in an infinite loop.
+            }
+        }
+
         //ageCalculator(day, month, year);
-        //determineZodiacSign(day, month);
+        determineZodiacSign(day, month);
     }
 
     // Method to determine age
     //ageCalculator(int day, int month, int year){}
 
-    // Method to determine the zodiac sign (şimdilik kapalı, ageAndZodiacDetection() fonksiyonuna scanner ekleyince açarız)
-    /*public static void determineZodiacSign(int day, int month)
+    // Method to determine the zodiac sign
+    public static void determineZodiacSign(int day, int month)
     {
         String zodiacSign = "";
         if ((month == 1 && day >= 20) || (month == 2 && day <= 18)) {
@@ -156,8 +227,8 @@ public class Oop
         } else {
             zodiacSign = "Invalid date";
         }
-        System.out.println("Your zodiac sign is: " + zodiacSign);
-    }*/
+        System.out.println("\nYour zodiac sign is: " + zodiacSign);
+    }
 
 
 }
