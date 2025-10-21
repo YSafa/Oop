@@ -37,6 +37,12 @@ public class Oop
         }
     }
 
+    public static void clearScreen()
+    {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
+
     //Displays a colorful ASCII art welcome message.
     public static void displayWelcomeMessage()
     {
@@ -82,10 +88,8 @@ public class Oop
     }
 
     public static void primarySchoolMenu(Scanner scanner)
-    {   // Screen should be cleared
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
-
+    {
+        clearScreen(); // Screen should be cleared
         while (true)
         {   // Display Primary School submenu
             System.out.println("\n--- Primary School Menu ---");
@@ -136,6 +140,10 @@ public class Oop
                 year = scanner.nextInt();
                 if (year < 0 || year > 2025) // Is the numerical value in the correct range?
                     System.err.println(" \nYour birth year must be between 0 and 2025: ");  // Numerical but out of valid range, print error and loop continues.
+                else if(year == -0)
+                {
+                    System.err.println(" \nThere is noting like -0: "); // buna minik düzeltme yapcam
+                }
                 else    // Correct input style and it can be a year so continue
                     validYearInput = true;
             }catch (InputMismatchException e) // User entered text instead of an int.
@@ -274,10 +282,8 @@ public class Oop
 
 
     public static void universityMenu(Scanner scanner)
-    {   // Screen should be cleared
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
-
+    {
+        clearScreen(); // Screen should be cleared
         while(true)
         {   // Display primary school submenu
             System.out.println("\n--- Primary School Menu ---");
