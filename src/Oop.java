@@ -332,6 +332,6 @@ public class Oop
             scanner.nextLine();
         }
     }
-
+    // bastugdildar deneme comment'i
     // fiveToFour(scanner) koodları buraya gelir önce array içinde map oluşur ordan da oynanış için kodları yaparız
 }
