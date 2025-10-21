@@ -1,10 +1,19 @@
 import java.util.Scanner;
 import java.time.LocalDate;
 import java.util.InputMismatchException;
-import java.time.LocalDate;
 
 public class Oop
 {
+    // ANSI color codes
+    public static final String RESET = "\033[0m";
+    public static final String YELLOW = "\033[33m";
+    public static final String RED = "\033[31m";
+    public static final String PURPLE = "\033[35m";
+    public static final String BLUE = "\033[34m";
+    public static final String GREEN = "\033[32m";
+    public static final String CYAN = "\033[36m";
+
+
     public static void main(String[] args)
     {
         // Main application loop
@@ -46,15 +55,6 @@ public class Oop
     //Displays a colorful ASCII art welcome message.
     public static void displayWelcomeMessage()
     {
-        // ANSI color codes
-        String RESET = "\033[0m";
-        String RED = "\033[31m";
-        String GREEN = "\033[32m";
-        String YELLOW = "\033[33m";
-        String BLUE = "\033[34m";
-        String PURPLE = "\033[35m";
-        String CYAN = "\033[36m";
-
         System.out.println("\n" + RED + "                 /           /");
         System.out.println(RED + "                /' .,,,,  ./");
         System.out.println(GREEN + "               /';'     ,/");
@@ -78,13 +78,16 @@ public class Oop
     //Displays the main menu with options for different school levels.
     public static void displayMainMenu()
     {
-        System.out.println("\n--- Main Menu ---");
-        System.out.println("[A] Primary School");
+        System.out.println(RED + "===============================================" + RESET);
+        System.out.println(YELLOW + "                  Main Menu" + RESET);
+        System.out.println(RED + "===============================================" + RESET);
+        System.out.println(PURPLE + "[A] Primary School");
         System.out.println("[B] Secondary School");
         System.out.println("[C] High School");
         System.out.println("[D] University");
-        System.out.println("[E] Terminate");
-        System.out.print("Please select an option: ");
+        System.out.println("[E] Terminate" + RESET);
+        System.out.println(BLUE + "-----------------------------------------------" + RESET);
+        System.out.print(CYAN + "Please select an option: " + RESET);
     }
 
     public static void primarySchoolMenu(Scanner scanner)
@@ -92,11 +95,14 @@ public class Oop
         clearScreen(); // Screen should be cleared
         while (true)
         {   // Display Primary School submenu
-            System.out.println("\n--- Primary School Menu ---");
-            System.out.println("1. Age and Zodiac Sign Detection");
+            System.out.println(RED + "===============================================" + RESET);
+            System.out.println(YELLOW + "              Primary School Menu " + RESET);
+            System.out.println(RED + "===============================================" + RESET);
+            System.out.println(PURPLE + "1. Age and Zodiac Sign Detection");
             System.out.println("2. Reverse the Words");
-            System.out.println("3. Return to Main Menu");
-            System.out.print("Please select an operation: ");
+            System.out.println("3. Return to Main Menu" + RESET);
+            System.out.println(BLUE + "-----------------------------------------------" + RESET);
+            System.out.print(CYAN + "Please select an operation: " + RESET);
 
             String choice = scanner.nextLine();
             switch (choice)
@@ -113,7 +119,7 @@ public class Oop
                     System.out.println("Invalid option. Please try again.");
             }
             // After an operation, allow the user to repeat the selection or return
-            System.out.println("\nPress Enter to continue...");
+            System.out.println("Press Enter to continue...");
             scanner.nextLine();
         }
     }
@@ -129,9 +135,13 @@ public class Oop
         boolean validMonthInput = false;
         boolean validDayInput = false;
         boolean leapYear = false;
-        System.out.println("\n--- Age and Zodiac Sign Detection ---");
 
-        // yıl doğru mu onu kontrol ediyor (fonksiyonlaştırılabilir)
+        clearScreen();
+        System.out.println(RED + "===============================================" + RESET);
+        System.out.println(YELLOW + "       Age and Zodiac Sign Detection ");
+        System.out.println(RED + "===============================================" + RESET);
+
+
         while(!validYearInput)
         {
             System.out.print("\nPlease enter the year of your birthday (e. g., 2004): ");
@@ -320,7 +330,7 @@ public class Oop
                     //fiveToFour(scanner);
                     break;
                 case "2":
-                    //sixToFive(scanner);
+                    //sixToFive(scanner);,
                     break;
                 case "3":
                     //sixToSeven(scanner);
