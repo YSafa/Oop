@@ -41,7 +41,7 @@ public class Oop
                    System.out.println("Terminating the application. Goodbye!");
                    return;
                default:
-                   System.out.println("Invalid option. Please try again.");
+                   System.out.println(RED + "Invalid option. Please try again." + RESET);
            }
         }
     }
@@ -78,6 +78,7 @@ public class Oop
     //Displays the main menu with options for different school levels.
     public static void displayMainMenu()
     {
+        clearScreen();
         System.out.println(RED + "===============================================" + RESET);
         System.out.println(YELLOW + "                  Main Menu" + RESET);
         System.out.println(RED + "===============================================" + RESET);
@@ -92,9 +93,10 @@ public class Oop
 
     public static void primarySchoolMenu(Scanner scanner)
     {
-        clearScreen(); // Screen should be cleared
         while (true)
-        {   // Display Primary School submenu
+        {
+            clearScreen(); // Screen should be cleared
+            // Display Primary School submenu
             System.out.println(RED + "===============================================" + RESET);
             System.out.println(YELLOW + "              Primary School Menu " + RESET);
             System.out.println(RED + "===============================================" + RESET);
@@ -116,10 +118,10 @@ public class Oop
                 case "3":
                     return; // Go back to the main menu
                 default:
-                    System.out.println("Invalid option. Please try again.");
+                    System.out.println(RED + "Invalid option. Please try again." + RESET);
             }
             // After an operation, allow the user to repeat the selection or return
-            System.out.println("Press Enter to continue...");
+            System.out.println(RED + "Press Enter to continue..." + RESET);
             scanner.nextLine();
         }
     }
@@ -144,21 +146,21 @@ public class Oop
 
         while(!validYearInput)
         {
-            System.out.print("\nPlease enter the year of your birthday (e. g., 2004): ");
+            System.out.print(PURPLE + "Please enter the year of your birthday (e. g., 2004): " + RESET);
             try // Attempt to get the numerical input.
             {
                 year = scanner.nextInt();
                 if (year < 0 || year > 2025) // Is the numerical value in the correct range?
-                    System.err.println(" \nYour birth year must be between 0 and 2025: ");  // Numerical but out of valid range, print error and loop continues.
+                    System.err.println(RED + "Your birth year must be between 0 and 2025. " + RESET);  // Numerical but out of valid range, print error and loop continues.
                 else if(year == -0)
                 {
-                    System.err.println(" \nThere is noting like -0: "); // buna minik düzeltme yapcam
+                    System.err.println(RED + "There is noting like -0. " + RESET); // buna minik düzeltme yapcam
                 }
                 else    // Correct input style and it can be a year so continue
                     validYearInput = true;
             }catch (InputMismatchException e) // User entered text instead of an int.
             {
-                System.err.println("Error! You did not enter a valid integer. Please enter only the year number.");
+                System.err.println(RED + "Error! You did not enter a valid integer. Please enter only the year number." + RESET);
                 scanner.next();         // If this is not done, it will result in an infinite loop.
             }
         }
@@ -169,17 +171,18 @@ public class Oop
         // ay doğru mu onu kontrol ediyor
         while(!validMonthInput)
         {
-            System.out.print("\nPlease enter the month of your birthday (e. g., 9): ");
+            System.out.println(BLUE + "-----------------------------------------------" + RESET);
+            System.out.print(PURPLE + "Please enter the month of your birthday (e. g., 9): " + RESET);
             try // Attempt to get the numerical input.
             {
                 month = scanner.nextInt();
                 if (month < 1 || month > 12) // Is the numerical value in the correct range?
-                    System.err.println(" \nYour birth month must be between 1 and 12: ");    // Numerical but out of valid range, print error and loop continues.
+                    System.err.println(RED + "Your birth month must be between 1 and 12. " + RESET);    // Numerical but out of valid range, print error and loop continues.
                 else    // Correct input style and it can be a month so continue
                     validMonthInput = true;
             }catch (InputMismatchException e) // User entered text instead of an int.
             {
-                System.err.println("Error! You did not enter a valid integer. Please enter only the month number.");
+                System.err.println(RED + "Error! You did not enter a valid integer. Please enter only the month number." + RESET);
                 scanner.next();         // If this is not done, it will result in an infinite loop.
             }
         }
@@ -187,7 +190,8 @@ public class Oop
         // gün doğru mu onu kontrol ediyor
         while(!validDayInput)
         {
-            System.out.print("\nPlease enter the day of your birthday (e. g., 21): ");
+            System.out.println(BLUE + "-----------------------------------------------" + RESET);
+            System.out.print(PURPLE+ "Please enter the day of your birthday (e. g., 21): " + RESET);
             try // Attempt to get the numerical input.
             {
                 day = scanner.nextInt();
@@ -200,16 +204,18 @@ public class Oop
                 else if(month == 2 && leapYear && (day > 0 && day < 30))
                     validDayInput = true;   // Correct input style and it can be a day so continue
                 else
-                    System.err.println(" \nYour birth day must be in correct gap: ");    // Numerical but out of valid range, print error and loop continues.
+                    System.err.println(RED + "Your birth day must be in valid day. " + RESET);    // Numerical but out of valid range, print error and loop continues.
             }catch (InputMismatchException e) // User entered text instead of an int.
             {
-                System.err.println("Error! You did not enter a valid integer. Please enter only the day number.");
+                System.err.println(RED + "Error! You did not enter a valid integer. Please enter only the day number." + RESET);
                 scanner.next();         // If this is not done, it will result in an infinite loop.
             }
         }
-
         ageCalculator(day, month, year);
         determineZodiacSign(day, month);
+
+        System.out.println(RED + "Press Enter to continue..." + RESET);
+        scanner.nextLine();
     }
 
     // Method to determine age
@@ -244,8 +250,12 @@ public class Oop
             userYear--;
             userMonth += 12;
         }
-        System.out.println("\n---Results---");
-        System.out.println("Your age is: " + userYear + "Year " + userMonth + "Month " + userDay + "Day");
+        clearScreen();
+        System.out.println(RED + "===============================================" + RESET);
+        System.out.println(YELLOW + "                  Results ");
+        System.out.println(RED + "===============================================" + RESET);
+        System.out.println(YELLOW + "Your age is: " + userYear + "Year " + userMonth + "Month " + userDay + "Day" + RESET);
+        System.out.println(RED + "===============================================" + RESET);
     }
 
     // Method to determine the zodiac sign
@@ -279,13 +289,14 @@ public class Oop
         } else {
             zodiacSign = "Invalid date";
         }
-        System.out.println("Your zodiac sign is: " + zodiacSign);
+        System.out.println(YELLOW + "Your zodiac sign is: " + zodiacSign + RESET);
+        System.out.println(RED + "===============================================" + RESET);
     }
 
 
 
 
-
+    // Uygulamaların fonksiyonlarını yaparken A-B-C-D diye gidelim, Fonksiyon sırası ona göre olsun sonradan kafa karıştırmasın
 
 
 
@@ -295,11 +306,16 @@ public class Oop
     {
         clearScreen(); // Screen should be cleared
         while(true)
-        {   // Display primary school submenu
-            System.out.println("\n--- Primary School Menu ---");
-            System.out.println("1. Connect Four");
-            System.out.println("2. Return to Main Menu");
-            System.out.print("Please select an operation: ");
+        {
+            clearScreen();
+            // Display primary school submenu
+            System.out.println(RED + "===============================================" + RESET);
+            System.out.println(YELLOW + "               University Menu" + RESET);
+            System.out.println(RED + "===============================================" + RESET);
+            System.out.println(PURPLE + "1. Connect Four");
+            System.out.println("2. Return to Main Menu" + RESET);
+            System.out.println(BLUE + "-----------------------------------------------" + RESET);
+            System.out.print(CYAN + "Please select an operation: " + RESET);
 
             String choice = scanner.nextLine();
             switch (choice)
@@ -310,10 +326,10 @@ public class Oop
                 case "2":
                     return; // Go back to the main menu
                 default:
-                    System.out.println("Invalid option. Please try again.");
+                    System.out.println(RED + "Invalid option. Please try again." + RESET);
             }
             // After an operation, allow the user to repeat the selection or return
-            System.out.println("\nPress Enter to continue...");
+            System.out.println(RED + "Press Enter to continue..." + RESET);
             scanner.nextLine();
         }
     }
@@ -321,8 +337,12 @@ public class Oop
     public static void connectFour(Scanner scanner)
     {
         while(true)
-        {   // Display connect four subsubmenu
-            System.out.println("\n--- Connect Four ---");
+        {
+            clearScreen();
+            // Display connect four subsubmenu
+            System.out.println(RED + "===============================================" + RESET);
+            System.out.println(YELLOW  + "                  Connect Four " + RESET);
+            System.out.println(RED + "===============================================" + RESET);
             String choice = scanner.nextLine();
             switch (choice)
             {
@@ -338,13 +358,13 @@ public class Oop
                 case "4":
                     return; // Go back to the main menu
                 default:
-                    System.out.println("Invalid option. Please try again.");
+                    System.out.println(RED + "Invalid option. Please try again." + RESET);
             }
 
             // burada co-op mu pcye karşı mı oynancak oranın seçeneğini sorarız switch case ile
 
             // After an operation, allow the user to repeat the selection or return
-            System.out.println("\nPress Enter to continue...");
+            System.out.println(RED + "Press Enter to continue..." + RESET);
             scanner.nextLine();
         }
     }
