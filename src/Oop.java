@@ -308,7 +308,7 @@ public class Oop
         while(true)
         {
             clearScreen();
-            // Display primary school submenu
+            // Display University submenu
             System.out.println(RED + "===============================================" + RESET);
             System.out.println(YELLOW + "               University Menu" + RESET);
             System.out.println(RED + "===============================================" + RESET);
@@ -316,7 +316,6 @@ public class Oop
             System.out.println("2. Return to Main Menu" + RESET);
             System.out.println(BLUE + "-----------------------------------------------" + RESET);
             System.out.print(CYAN + "Please select an operation: " + RESET);
-
             String choice = scanner.nextLine();
             switch (choice)
             {
@@ -336,38 +335,150 @@ public class Oop
 
     public static void connectFour(Scanner scanner)
     {
+        int sizeOfBoard = boardSize(scanner);
+        if(sizeOfBoard == 4)
+            return;
+
+        // board size a göre row ve colu ayarlıyor
+        int rows = 0, cols = 0;
+        if(sizeOfBoard == 1) { cols = 5; rows = 4; }
+        else if(sizeOfBoard == 2) { cols = 6; rows = 5; }
+        else if(sizeOfBoard == 3) { cols = 7; rows = 6; }
+
+        int modeOfGame = gameMode(scanner);
+        if(modeOfGame == 3)
+                return;
+
+        // boolean vsComputer = (modeOfGame == 2);
+
+        char[][] board = new char[rows][cols]; // Creating board
+        for (int r = 0; r < rows; r++)
+            for (int c = 0; c < cols; c++)
+                board[r][c] = ' ';
+
+        char currentPlayer = 'X';
+
+        // Random random = new Random(); // random legal mi bakarız
+
+        printBoard(board, rows, cols);
+
+    }
+
+    // board size seçtiriyor
+    public static int boardSize(Scanner scanner)
+    {
         while(true)
         {
             clearScreen();
-            // Display connect four subsubmenu
+            // Display connect four subsubmenu / board selection
             System.out.println(RED + "===============================================" + RESET);
-            System.out.println(YELLOW  + "                  Connect Four " + RESET);
+            System.out.println(YELLOW  + "                 Connect Four " + RESET);
             System.out.println(RED + "===============================================" + RESET);
+            System.out.println(YELLOW  + "             Select The Board Size " + RESET);
+            System.out.println(RED + "===============================================" + RESET);
+            System.out.println(PURPLE + "1. 5x4");
+            System.out.println("2. 6x5");
+            System.out.println("3. 7x6");
+            System.out.println("4. Return to University Menu" + RESET);
+            System.out.println(BLUE + "-----------------------------------------------" + RESET);
+            System.out.print(CYAN + "Please select an operation: " + RESET);
             String choice = scanner.nextLine();
             switch (choice)
             {
                 case "1":
-                    //fiveToFour(scanner);
-                    break;
+                    return 1;
                 case "2":
-                    //sixToFive(scanner);,
-                    break;
+                    return 2;
                 case "3":
-                    //sixToSeven(scanner);
-                    break;
+                    return 3;
                 case "4":
-                    return; // Go back to the main menu
+                    return 4; // Go back to the main menu
                 default:
                     System.out.println(RED + "Invalid option. Please try again." + RESET);
             }
-
-            // burada co-op mu pcye karşı mı oynancak oranın seçeneğini sorarız switch case ile
-
             // After an operation, allow the user to repeat the selection or return
             System.out.println(RED + "Press Enter to continue..." + RESET);
             scanner.nextLine();
         }
     }
+
+    // oyun modunu seçtirtiyor
+    public static int gameMode(Scanner scanner)
+    {
+        while(true)
+        {
+            clearScreen();
+            // Display connect four subsubmenu
+            System.out.println(RED + "===============================================" + RESET);
+            System.out.println(YELLOW + "                 Game Mode" + RESET);
+            System.out.println(RED + "===============================================" + RESET);
+            System.out.println(PURPLE + "1. Player vs Player");
+            System.out.println("2. Player vs Computer");
+            System.out.println("3. Return to University Menu");
+            System.out.println(BLUE + "-----------------------------------------------" + RESET);
+            System.out.print(CYAN + "Please select an operation: " + RESET);
+            String choice = scanner.nextLine();
+            switch (choice) {
+                case "1":
+                    return 1;
+                case "2":
+                    return 2;
+                case "3":
+                    return 3; // Go back to the main menu
+                default:
+                    System.out.println(RED + "Invalid option. Please try again." + RESET);
+            }
+            // After an operation, allow the user to repeat the selection or return
+            System.out.println(RED + "Press Enter to continue..." + RESET);
+            scanner.nextLine();
+        }
+    }
+
+    // Prints board
+    public static void printBoard(char[][] board, int rows, int cols)
+    {
+        clearScreen();
+        System.out.print("   ");
+        for (int c = 0; c < cols; c++) System.out.print(" " + (c + 1) + "  ");
+        System.out.println();
+
+        System.out.print("  ┌");
+        for (int c = 0; c < cols; c++) {
+            System.out.print("───");
+            if (c == cols - 1) System.out.print("┐");
+            else System.out.print("┬");
+        }
+        System.out.println();
+
+        for (int r = 0; r < rows; r++) {
+            System.out.print((r + 1) + " │");
+            for (int c = 0; c < cols; c++) {
+                char symbol = board[r][c];
+                String coloredSymbol = (symbol == 'X') ? RED + "X" + RESET :
+                        (symbol == 'O') ? YELLOW + "O" + RESET : " ";
+                System.out.print(" " + coloredSymbol + " │");
+            }
+            System.out.println();
+
+            if (r < rows - 1) {
+                System.out.print("  ├");
+                for (int c = 0; c < cols; c++) {
+                    System.out.print("───");
+                    if (c == cols - 1) System.out.print("┤");
+                    else System.out.print("┼");
+                }
+            } else {
+                System.out.print("  └");
+                for (int c = 0; c < cols; c++) {
+                    System.out.print("───");
+                    if (c == cols - 1) System.out.print("┘");
+                    else System.out.print("┴");
+                }
+            }
+            System.out.println();
+        }
+    }
+
+
     // bastugdildar deneme comment'i
-    // fiveToFour(scanner) koodları buraya gelir önce array içinde map oluşur ordan da oynanış için kodları yaparız
 }
