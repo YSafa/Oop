@@ -1,6 +1,7 @@
 import java.util.Scanner;
 import java.time.LocalDate;
 import java.util.InputMismatchException;
+import java.util.Random;
 
 public class Oop
 {
@@ -345,107 +346,19 @@ public class Oop
         else if(sizeOfBoard == 2) { cols = 6; rows = 5; }
         else if(sizeOfBoard == 3) { cols = 7; rows = 6; }
 
-        int modeOfGame = gameMode(scanner);
-        if(modeOfGame == 3)
-                return;
-
-        // boolean vsComputer = (modeOfGame == 2);
-
         char[][] board = new char[rows][cols]; // Creating board
         for (int r = 0; r < rows; r++)
             for (int c = 0; c < cols; c++)
                 board[r][c] = ' ';
 
-        char currentPlayer = 'X';
+        int modeOfGame = gameMode(scanner);
 
-        // Random random = new Random(); // random legal mi bakarız
-
-        printBoard(board, rows, cols);
-
-
-        // While loop for players to place discs
-        while (true)
-        {
-            System.out.println(CYAN + "Player " + currentPlayer + ", choose a column (1-" + cols + "), or 0 to quit:" + RESET);
-            String input = scanner.nextLine();
-
-            if (input.equals("0"))
-            {
-                System.out.println(RED + "Player " + currentPlayer + " forfeited the game." + RESET);
-                break;
-            }
-
-            int col;
-            try
-            {
-                col = Integer.parseInt(input) - 1; // User enters 1-7 but the index of array is 0-6
-            } catch (NumberFormatException e)
-            {
-                System.out.println(RED + "Invalid input. Please enter a number." + RESET);
-                continue;
-            }
-
-            if (col < 0 || col >= cols)
-            {
-                System.out.println(RED + "Column out of range. Try again." + RESET);
-                continue;
-            }
-
-            // Checks if the colm is full
-            if (board[0][col] != ' ')
-            {
-                System.out.println(RED + "That column is full. Try another one." + RESET);
-                continue;
-            }
-
-            // Droping disc animation
-            int dropRow = -1;
-            for (int r = 0; r < rows; r++)
-            {
-                if (r == rows - 1 || board[r + 1][col] != ' ')
-                {
-                    dropRow = r;
-                    break;
-                }
-            }
-
-            // Disc falling effect
-            for (int fallingRow = 0; fallingRow <= dropRow; fallingRow++)
-            {
-                if (fallingRow > 0) board[fallingRow - 1][col] = ' '; // önceki konumu temizle
-                board[fallingRow][col] = currentPlayer; // geçici konum
-
-                printBoard(board, rows, cols);
-
-                try {
-                    Thread.sleep(120); // milisaniye (animasyon hızı)
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                }
-            }
-            // Final position of the disc
-            board[dropRow][col] = currentPlayer;
-
-            // Clean the screen and show the board
-            printBoard(board, rows, cols);
-
-            // Function for checking for win
-            if (checkWinner(board, currentPlayer))
-            {
-                System.out.println(GREEN + "Player " + currentPlayer + " wins!" + RESET);
-                break;
-            }
-
-            // Function for checking for ties
-            if (isBoardFull(board))
-            {
-                System.out.println(YELLOW + "The board is full! It's a draw." + RESET);
-                break;
-            }
-
-            // To change the player
-            currentPlayer = (currentPlayer == 'X') ? 'O' : 'X';
-        }
+        if (modeOfGame == 1)
+            playPvP(scanner, board, rows, cols); // PvP
+        else if (modeOfGame == 2)
+            playPvC(scanner, board, rows, cols); // PvC
+        else
+            return;
 
     }
 
@@ -572,6 +485,226 @@ public class Oop
     }
 
 
+    public static void playPvP(Scanner scanner, char[][] board, int rows, int cols)
+    {
+        char currentPlayer = 'X';
+        printBoard(board, rows, cols);
+
+        while (true)
+        {
+            System.out.println(BLUE + "-----------------------------------------------" + RESET);
+            System.out.println(CYAN + "Player " + currentPlayer + ", choose a column (1-" + cols + "), or 0 to quit:" + RESET);
+            String input = scanner.nextLine();
+
+            if (input.equals("0"))
+            {
+                System.out.println(RED + "Player " + currentPlayer + " forfeited the game." + RESET);
+                break;
+            }
+
+            int col;
+            try
+            {
+                col = Integer.parseInt(input) - 1;
+            } catch (NumberFormatException e) {
+                System.out.println(RED + "Invalid input. Please enter a number." + RESET);
+                continue;
+            }
+
+            if (col < 0 || col >= cols)
+            {
+                System.out.println(RED + "Column out of range. Try again." + RESET);
+                continue;
+            }
+
+            if (board[0][col] != ' ')
+            {
+                System.out.println(RED + "That column is full. Try another one." + RESET);
+                continue;
+            }
+
+            // Disc dropping effect
+            dropDiscWithAnimation(board, rows, col, currentPlayer);
+            printBoard(board, rows, cols);
+
+            // Checks win
+            if (checkWinner(board, currentPlayer))
+            {
+                System.out.println(GREEN + "Player " + currentPlayer + " wins! 🎉" + RESET);
+                break;
+            }
+
+            // Checks tie
+            if (isBoardFull(board))
+            {
+                System.out.println(YELLOW + "It's a draw!" + RESET);
+                break;
+            }
+
+            // Change the disc
+            currentPlayer = (currentPlayer == 'X') ? 'O' : 'X';
+        }
+    }
+
+
+    public static void playPvC(Scanner scanner, char[][] board, int rows, int cols) // Player vs computer
+    {
+        Random random = new Random();
+
+        // Player chooses the disc
+        char playerSymbol = 'X';
+        char computerSymbol = 'O';
+
+        while (true)
+        {
+            clearScreen();
+            System.out.println(RED + "===============================================" + RESET);
+            System.out.println(YELLOW + "          Player vs Computer Setup" + RESET);
+            System.out.println(RED + "===============================================" + RESET);
+            System.out.println(BLUE + "-----------------------------------------------" + RESET);
+            System.out.print(CYAN + "Do you want to be X (first) or O (second)? " + RESET);
+            String choice = scanner.nextLine().trim().toUpperCase(); // .trim() removes all leading and trailing whitespace characters
+            if (choice.equals("X"))
+            {
+                playerSymbol = 'X';
+                computerSymbol = 'O';
+                break;
+            }
+            else if (choice.equals("O"))
+            {
+                playerSymbol = 'O';
+                computerSymbol = 'X';
+                break;
+            }
+            else
+                System.out.println(RED + "Invalid choice. Please type X or O." + RESET);
+        }
+
+        char currentPlayer = 'X'; // X starts first
+        printBoard(board, rows, cols);
+
+        while (true)
+        {
+            if (currentPlayer == playerSymbol)
+            {
+                // Player turn
+                int col;
+                System.out.println(BLUE + "-----------------------------------------------" + RESET);
+                System.out.println(CYAN + "Your turn (" + playerSymbol + "). Choose a column (1-" + cols + "), or 0 to quit:" + RESET);
+                String input = scanner.nextLine();
+
+                if (input.equals("0"))
+                {
+                    System.out.println(RED + "You forfeited the game." + RESET);
+                    break;
+                }
+
+                try
+                {
+                    col = Integer.parseInt(input) - 1;
+                } catch (NumberFormatException e) {
+                    System.out.println(RED + "Invalid input. Please enter a number." + RESET);
+                    continue;
+                }
+
+                if (col < 0 || col >= cols)
+                {
+                    System.out.println(RED + "Column out of range. Try again." + RESET);
+                    continue;
+                }
+
+                if (board[0][col] != ' ')
+                {
+                    System.out.println(RED + "That column is full. Try another one." + RESET);
+                    continue;
+                }
+
+                dropDiscWithAnimation(board, rows, col, playerSymbol);
+                printBoard(board, rows, cols);
+
+                if (checkWinner(board, playerSymbol))
+                {
+                    System.out.println(GREEN + "You win! 🎉" + RESET);
+                    break;
+                }
+
+                if (isBoardFull(board))
+                {
+                    System.out.println(YELLOW + "It's a draw!" + RESET);
+                    break;
+                }
+
+                currentPlayer = computerSymbol; // Computer turn
+            }
+            else
+            {
+                // Computer turn
+                System.out.println(YELLOW + "Computer (" + computerSymbol + ") is thinking..." + RESET);
+                try
+                {
+                    Thread.sleep(600);
+                }catch (InterruptedException e)
+                {
+                    Thread.currentThread().interrupt();
+                }
+
+                int computerCol;
+                do
+                {
+                    computerCol = random.nextInt(cols);
+                } while (board[0][computerCol] != ' ');
+
+                dropDiscWithAnimation(board, rows, computerCol, computerSymbol);
+                printBoard(board, rows, cols);
+
+                if (checkWinner(board, computerSymbol))
+                {
+                    System.out.println(RED + "Computer wins! 💻" + RESET);
+                    break;
+                }
+
+                if (isBoardFull(board))
+                {
+                    System.out.println(YELLOW + "It's a draw!" + RESET);
+                    break;
+                }
+
+                currentPlayer = playerSymbol; // Turn for player
+            }
+        }
+    }
+
+
+    public static void dropDiscWithAnimation(char[][] board, int rows, int col, char player)
+    {
+        int dropRow = -1;
+        for (int r = 0; r < rows; r++)
+        {
+            if (r == rows - 1 || board[r + 1][col] != ' ')
+            {
+                dropRow = r;
+                break;
+            }
+        }
+
+        // Disk dropping effect
+        for (int fallingRow = 0; fallingRow <= dropRow; fallingRow++)
+        {
+            if (fallingRow > 0) board[fallingRow - 1][col] = ' ';
+            board[fallingRow][col] = player;
+
+            printBoard(board, rows, board[0].length);
+            try
+            {
+                Thread.sleep(120);
+            } catch (InterruptedException e)
+            {
+                Thread.currentThread().interrupt();
+            }
+        }
+
+        board[dropRow][col] = player;
+    }
 
     // Cheks the winner
     public static boolean checkWinner(char[][] board, char player)
