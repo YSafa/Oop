@@ -362,9 +362,94 @@ public class Oop
 
         printBoard(board, rows, cols);
 
+
+        // While loop for players to place discs
+        while (true)
+        {
+            System.out.println(CYAN + "Player " + currentPlayer + ", choose a column (1-" + cols + "), or 0 to quit:" + RESET);
+            String input = scanner.nextLine();
+
+            if (input.equals("0"))
+            {
+                System.out.println(RED + "Player " + currentPlayer + " forfeited the game." + RESET);
+                break;
+            }
+
+            int col;
+            try
+            {
+                col = Integer.parseInt(input) - 1; // User enters 1-7 but the index of array is 0-6
+            } catch (NumberFormatException e)
+            {
+                System.out.println(RED + "Invalid input. Please enter a number." + RESET);
+                continue;
+            }
+
+            if (col < 0 || col >= cols)
+            {
+                System.out.println(RED + "Column out of range. Try again." + RESET);
+                continue;
+            }
+
+            // Checks if the colm is full
+            if (board[0][col] != ' ')
+            {
+                System.out.println(RED + "That column is full. Try another one." + RESET);
+                continue;
+            }
+
+            // Droping disc animation
+            int dropRow = -1;
+            for (int r = 0; r < rows; r++)
+            {
+                if (r == rows - 1 || board[r + 1][col] != ' ')
+                {
+                    dropRow = r;
+                    break;
+                }
+            }
+
+            // Disc falling effect
+            for (int fallingRow = 0; fallingRow <= dropRow; fallingRow++)
+            {
+                if (fallingRow > 0) board[fallingRow - 1][col] = ' '; // önceki konumu temizle
+                board[fallingRow][col] = currentPlayer; // geçici konum
+
+                printBoard(board, rows, cols);
+
+                try {
+                    Thread.sleep(120); // milisaniye (animasyon hızı)
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+            }
+            // Final position of the disc
+            board[dropRow][col] = currentPlayer;
+
+            // Clean the screen and show the board
+            printBoard(board, rows, cols);
+
+            // Function for checking for win
+            if (checkWinner(board, currentPlayer))
+            {
+                System.out.println(GREEN + "Player " + currentPlayer + " wins!" + RESET);
+                break;
+            }
+
+            // Function for checking for ties
+            if (isBoardFull(board))
+            {
+                System.out.println(YELLOW + "The board is full! It's a draw." + RESET);
+                break;
+            }
+
+            // To change the player
+            currentPlayer = (currentPlayer == 'X') ? 'O' : 'X';
+        }
+
     }
 
-    // board size seçtiriyor
+    // Selecting the board size
     public static int boardSize(Scanner scanner)
     {
         while(true)
@@ -402,7 +487,7 @@ public class Oop
         }
     }
 
-    // oyun modunu seçtirtiyor
+    // Choose the game mode
     public static int gameMode(Scanner scanner)
     {
         while(true)
@@ -443,16 +528,19 @@ public class Oop
         System.out.println();
 
         System.out.print("  ┌");
-        for (int c = 0; c < cols; c++) {
+        for (int c = 0; c < cols; c++)
+        {
             System.out.print("───");
             if (c == cols - 1) System.out.print("┐");
             else System.out.print("┬");
         }
         System.out.println();
 
-        for (int r = 0; r < rows; r++) {
+        for (int r = 0; r < rows; r++)
+        {
             System.out.print((r + 1) + " │");
-            for (int c = 0; c < cols; c++) {
+            for (int c = 0; c < cols; c++)
+            {
                 char symbol = board[r][c];
                 String coloredSymbol = (symbol == 'X') ? RED + "X" + RESET :
                         (symbol == 'O') ? YELLOW + "O" + RESET : " ";
@@ -460,16 +548,20 @@ public class Oop
             }
             System.out.println();
 
-            if (r < rows - 1) {
+            if (r < rows - 1)
+            {
                 System.out.print("  ├");
                 for (int c = 0; c < cols; c++) {
                     System.out.print("───");
                     if (c == cols - 1) System.out.print("┤");
                     else System.out.print("┼");
                 }
-            } else {
+            }
+            else
+            {
                 System.out.print("  └");
-                for (int c = 0; c < cols; c++) {
+                for (int c = 0; c < cols; c++)
+                {
                     System.out.print("───");
                     if (c == cols - 1) System.out.print("┘");
                     else System.out.print("┴");
@@ -480,5 +572,70 @@ public class Oop
     }
 
 
-    // bastugdildar deneme comment'i
+
+    // Cheks the winner
+    public static boolean checkWinner(char[][] board, char player)
+    {
+        int rows = board.length;
+        int cols = board[0].length;
+
+        // Checks the rows
+        for (int r = 0; r < rows; r++)
+        {
+            for (int c = 0; c < cols - 3; c++)
+            {
+                if (board[r][c] == player && board[r][c+1] == player &&
+                        board[r][c+2] == player && board[r][c+3] == player)
+                    return true;
+            }
+        }
+
+        // Checks the cols
+        for (int c = 0; c < cols; c++)
+        {
+            for (int r = 0; r < rows - 3; r++)
+            {
+                if (board[r][c] == player && board[r+1][c] == player &&
+                        board[r+2][c] == player && board[r+3][c] == player)
+                    return true;
+            }
+        }
+
+        // Checks bottom-right diagonal
+        for (int r = 0; r < rows - 3; r++)
+        {
+            for (int c = 0; c < cols - 3; c++)
+            {
+                if (board[r][c] == player && board[r+1][c+1] == player &&
+                        board[r+2][c+2] == player && board[r+3][c+3] == player)
+                    return true;
+            }
+        }
+
+        // Checks bottom-left diagonal
+        for (int r = 0; r < rows - 3; r++)
+        {
+            for (int c = 3; c < cols; c++)
+            {
+                if (board[r][c] == player && board[r+1][c-1] == player &&
+                        board[r+2][c-2] == player && board[r+3][c-3] == player)
+                    return true;
+            }
+        }
+
+        return false;
+    }
+
+    // Boards is full or not
+    public static boolean isBoardFull(char[][] board)
+    {
+        for (int c = 0; c < board[0].length; c++)
+        {
+            if (board[0][c] == ' ')
+                return false;
+        }
+        return true;
+    }
+
+
 }
