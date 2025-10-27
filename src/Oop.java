@@ -153,7 +153,7 @@ public class Oop
         while(!validYearInput)
         {
             System.out.println(BLUE + "-----------------------------------------------" + RESET);
-            System.out.print(PURPLE + "Please enter the year of your birthday (e. g., 2004): " + RESET);
+            System.out.print(CYAN + "Please enter the year of your birthday (e. g., 2004): " + RESET);
             try // Attempt to get the numerical input.
             {
                 year = scanner.nextInt();
@@ -179,7 +179,7 @@ public class Oop
         while(!validMonthInput)
         {
             System.out.println(BLUE + "-----------------------------------------------" + RESET);
-            System.out.print(PURPLE + "Please enter the month of your birthday (e. g., 9): " + RESET);
+            System.out.print(CYAN + "Please enter the month of your birthday (e. g., 9): " + RESET);
             try // Attempt to get the numerical input.
             {
                 month = scanner.nextInt();
@@ -198,7 +198,7 @@ public class Oop
         while(!validDayInput)
         {
             System.out.println(BLUE + "-----------------------------------------------" + RESET);
-            System.out.print(PURPLE+ "Please enter the day of your birthday (e. g., 21): " + RESET);
+            System.out.print(CYAN + "Please enter the day of your birthday (e. g., 21): " + RESET);
             try // Attempt to get the numerical input.
             {
                 day = scanner.nextInt();
@@ -474,29 +474,28 @@ public class Oop
         System.out.println(RED + "===============================================" + RESET);
         System.out.println(YELLOW + "          Distance between Two Arrays ");
         System.out.println(RED + "===============================================" + RESET);
-        System.out.println(BLUE + "-----------------------------------------------" + RESET);
 
     
         
-    System.out.print("\033[H\033[2J");
-    System.out.flush();
+    clearScreen();
 
     int n = 0;
     // step1 : get array dimension
     while (true){
-        System.out.print("Enter the dimension of the arrays: ");
+        System.out.println(BLUE + "-----------------------------------------------" + RESET);
+        System.out.println(CYAN + "Enter the dimension of the arrays: " + RESET);
         if(scanner.hasNextInt()){
             n = scanner.nextInt();
             if(n > 0) {
                 break;
             }
             else {
-                System.out.println("Dimension must be positive.");
+                System.out.println(RED + "Dimension must be positive." + RESET);
         }
             
     }
     else {
-                System.out.println("Invalid input! Please enter an integer.");
+                System.out.println(RED + "Invalid input! Please enter an integer." + RESET);
                 scanner.next();
     }
     }
@@ -506,12 +505,12 @@ public class Oop
 
     //step2 get valid inputs
 
-    System.out.println("Enter elements for Array A (integers between 0-9):");
+    System.out.println(CYAN + "Enter elements for Array A (integers between 0-9): " + RESET);
     for(int i = 0; i < n; i++){
         A[i] = getValidElement(scanner, i , "A");
     }
 
-    System.out.println("Enter elements for Array B (integer between 0-9):");
+    System.out.println(CYAN + "Enter elements for Array B (integer between 0-9): " + RESET);
     for(int i = 0; i < n; i++){
         B[i] = getValidElement(scanner, i, "B");
     }
@@ -533,13 +532,17 @@ public class Oop
     double euclidean = Math.sqrt(euclideanSum);
     double cosineSimilarity = dotProduct / (Math.sqrt(magA)* Math.sqrt(magB));
 
-    System.out.printf("\n--- Results ---\n");
-    System.out.printf("Manhattan Distance: %.3f\n", manhattan);
-    System.out.printf("Euclidean Distance: %.3f\n", euclidean);
-    System.out.printf("Cosine Similarity: %.3f\n", cosineSimilarity);
+    clearScreen();
+    System.out.println(RED + "===============================================" + RESET);
+    System.out.println(YELLOW + "                  Results ");
+    System.out.println(RED + "===============================================" + RESET);
+    System.out.printf("%sManhattan Distance: %.3f\n%s",PURPLE, manhattan, RESET);
+    System.out.printf("%sEuclidean Distance: %.3f\n%s",PURPLE, euclidean, RESET);
+    System.out.printf("%sCosine Similarity: %.3f\n%s",PURPLE, cosineSimilarity, RESET);
+    System.out.println(BLUE + "-----------------------------------------------" + RESET);
 
     scanner.nextLine(); // clear newline before returning
-    System.out.println("\nPress Enter to return to the menu...");
+    System.out.println(RED + "Press Enter to return to the menu..." + RESET);
     scanner.nextLine();
 }
 
@@ -547,15 +550,15 @@ private static int getValidElement(Scanner scanner, int index, String arrayName)
 {
     int value;
     while (true) {
-        System.out.print(arrayName + "[" + index + "] = ");
+        System.out.print(PURPLE + arrayName + "[" + index + "] = " + RESET);
         if (scanner.hasNextInt()) {
             value = scanner.nextInt();
             if (value >= 0 && value <= 9)
                 return value;
             else
-                System.out.println("Invalid entry! Value must be between 0 and 9.");
+                System.out.println(RED + "Invalid entry! Value must be between 0 and 9." + RESET);
         } else {
-            System.out.println("Invalid input! Please enter an integer.");
+            System.out.println(RED + "Invalid input! Please enter an integer." + RESET);
             scanner.next(); // clear invalid input
         }
     }
