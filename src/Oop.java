@@ -30,7 +30,7 @@ public class Oop
                     primarySchoolMenu(scanner);
                     break;
                 case "B":
-                    //secondarySchoolMenu(scanner);
+                    secondarySchoolMenu(scanner);
                     break;
                 case "C":
                     highSchoolMenu(scanner);
@@ -59,15 +59,15 @@ public class Oop
         System.out.println("\n" + RED + "                 /           /");
         System.out.println(RED + "                /' .,,,,  ./");
         System.out.println(GREEN + "               /';'     ,/");
-        System.out.println(GREEN + "              / /   ,,//,`'`");
+        System.out.println(GREEN + "              / /   ,,//,'");
         System.out.println(YELLOW + "             ( ,, '_,  ,,,' ``");
         System.out.println(YELLOW + "             |    /@  ,,, ;\" `");
-        System.out.println(CYAN + "            /    .   ,''/' `,``");
+        System.out.println(CYAN + "            /    .   ,''/' ,`");
         System.out.println(BLUE + "           /   .     ./, `,, ` ;");
         System.out.println(PURPLE + "        ,./  .   ,-,',` ,,/''\\,'");
         System.out.println(PURPLE + "       |   /; ./,,'`,,'' |   |");
         System.out.println(CYAN + "       |     /   ','    /    |");
-        System.out.println(YELLOW + "        \\___/'   '     |     |");
+        System.out.println(YELLOW + "        \\_/'   '     |     |");
         System.out.println(RED + "           `,,'  |      /     `\\");
         System.out.println(RED + "                /      |        ~\\");
         System.out.println(RED + "               '       (");
@@ -81,7 +81,7 @@ public class Oop
     {
         clearScreen();
         System.out.println(RED + "===============================================" + RESET);
-        System.out.println(YELLOW + "                  Main Menu" + RESET);
+        System.out.println(YELLOW + "                   Main Menu" + RESET);
         System.out.println(RED + "===============================================" + RESET);
         System.out.println(PURPLE + "[A] Primary School");
         System.out.println("[B] Secondary School");
@@ -91,6 +91,8 @@ public class Oop
         System.out.println(BLUE + "-----------------------------------------------" + RESET);
         System.out.print(CYAN + "Please select an option: " + RESET);
     }
+
+    //  -------------------------  A PRIMARY SCHOOL  -------------------------
 
     public static void primarySchoolMenu(Scanner scanner)
     {
@@ -114,7 +116,7 @@ public class Oop
                     ageAndZodiacDetection(scanner);
                     break;
                 case "2":
-                    //reverseWords(scanner);
+                    reverseWords(scanner);
                     break;
                 case "3":
                     return; // Go back to the main menu
@@ -126,6 +128,8 @@ public class Oop
             scanner.nextLine();
         }
     }
+
+    //  ------------------------- A-1 AGE AND ZODIAC  -------------------------
 
     // Method to determine age and zodiac sign
     public static void ageAndZodiacDetection(Scanner scanner)
@@ -139,14 +143,16 @@ public class Oop
         boolean validDayInput = false;
         boolean leapYear = false;
 
-        clearScreen();
+        clearScreen();  // Screen should be cleared
+        // Display Age and Zodiac submenu
         System.out.println(RED + "===============================================" + RESET);
-        System.out.println(YELLOW + "       Age and Zodiac Sign Detection ");
+        System.out.println(YELLOW + "         Age and Zodiac Sign Detection ");
         System.out.println(RED + "===============================================" + RESET);
 
 
         while(!validYearInput)
         {
+            System.out.println(BLUE + "-----------------------------------------------" + RESET);
             System.out.print(PURPLE + "Please enter the year of your birthday (e. g., 2004): " + RESET);
             try // Attempt to get the numerical input.
             {
@@ -294,142 +300,204 @@ public class Oop
         System.out.println(RED + "===============================================" + RESET);
     }
 
-    public static void highSchoolMenu(Scanner scanner)
-{
-    // Screen should be cleared
-    System.out.print("\033[H\033[2J");
-    System.out.flush();
+    //  ------------------------- A-2 REVERSE WORDS  -------------------------
 
-    while (true)
+    public static void reverseWords(Scanner scanner)
     {
-        // Display High School submenu
-        System.out.println("\n--- Highschool Menu ---");
-        System.out.println("1. Statistical Information About An Array");
-        System.out.println("2. Distance Between Two Arrays");
-        System.out.println("3. Return to Main Menu");
-        System.out.print("Please select an operation: ");
+        clearScreen();  // Screen should be cleared
+        // Display Reverse Words submenu
+        System.out.println(RED + "===============================================" + RESET);
+        System.out.println(YELLOW + "                 Reverse Words ");
+        System.out.println(RED + "===============================================" + RESET);
+        System.out.println(BLUE + "-----------------------------------------------" + RESET);
 
-        String choice = scanner.nextLine();
-        switch (choice)
+
+
+
+    }
+
+
+
+
+
+
+    //  ------------------------- B SECONDARY SCHOOL  -------------------------
+
+    public static void secondarySchoolMenu(Scanner scanner)
+    {
+        while (true)
         {
-            case "1":
-                // statisticalInformationAboutAnArray(scanner);
-                break;
-            case "2":
-                distanceBetweenTwoArrays(scanner);
-                break;
-            case "3":
-                return; // Go back to the main menu
-            default:
-                System.out.println("Invalid option. Please try again.");
-                break; // yiğit önceki bodylerde burada break yok, istersen mantıklı mı diye bir bak kullanımı
-        } 
+            clearScreen(); // Screen should be cleared
+            // Display Secondary School submenu
+            System.out.println(RED + "===============================================" + RESET);
+            System.out.println(YELLOW + "             Secondary School Menu " + RESET);
+            System.out.println(RED + "===============================================" + RESET);
+            System.out.println(PURPLE + "1. Prime Numbers");
+            System.out.println("2. Step-by-step Evaluation of Expression");
+            System.out.println("3. Return to Main Menu" + RESET);
+            System.out.println(BLUE + "-----------------------------------------------" + RESET);
+            System.out.print(CYAN + "Please select an operation: " + RESET);
 
-    } 
-} 
-
-
-
-public static void distanceBetweenTwoArrays(Scanner scanner){
-    System.out.print("\033[H\033[2J");
-    System.out.flush();
-
-    int n = 0;
-    // step1 : get array dimension
-    while (true){
-        System.out.print("Enter the dimension of the arrays: ");
-        if(scanner.hasNextInt()){
-            n = scanner.nextInt();
-            if(n > 0) {
-                break;
+            String choice = scanner.nextLine();
+            switch (choice)
+            {
+                case "1":
+                    primeNumbers(scanner);
+                    break;
+                case "2":
+                    stepByStepEvaluationOfExpression(scanner);
+                    break;
+                case "3":
+                    return; // Go back to the main menu
+                default:
+                    System.out.println(RED + "Invalid option. Please try again." + RESET);
             }
-            else {
-                System.out.println("Dimension must be positive.");
-        }
-            
-    }
-    else {
-                System.out.println("Invalid input! Please enter an integer.");
-                scanner.next();
-    }
-    }
-
-    int [] A = new int [n];
-    int [] B = new int [n];
-
-    //step2 get valid inputs
-
-    System.out.println("Enter elements for Array A (integers between 0-9):");
-    for(int i = 0; i < n; i++){
-        A[i] = getValidElement(scanner, i , "A");
-    }
-
-    System.out.println("Enter elements for Array B (integer between 0-9):");
-    for(int i = 0; i < n; i++){
-        B[i] = getValidElement(scanner, i, "B");
-    }
-
-    // step3 computing
-
-    double manhattan = 0;
-    double euclideanSum = 0;
-    double dotProduct = 0, magA = 0, magB = 0;
-
-    for(int i = 0; i < n; i++){
-        manhattan  += Math.abs(A[i] - B[i]);
-        euclideanSum += Math.pow(A[i] - B[i], 2);
-        dotProduct += A[i] * B[i];
-        magA += Math.pow(A[i], 2);
-        magB += Math.pow(B[i], 2);
-    }
-
-    double euclidean = Math.sqrt(euclideanSum);
-    double cosineSimilarity = dotProduct / (Math.sqrt(magA)* Math.sqrt(magB));
-
-    System.out.printf("\n--- Results ---\n");
-    System.out.printf("Manhattan Distance: %.3f\n", manhattan);
-    System.out.printf("Euclidean Distance: %.3f\n", euclidean);
-    System.out.printf("Cosine Similarity: %.3f\n", cosineSimilarity);
-
-    scanner.nextLine(); // clear newline before returning
-    System.out.println("\nPress Enter to return to the menu...");
-    scanner.nextLine();
-}
-
-private static int getValidElement(Scanner scanner, int index, String arrayName)
-{
-    int value;
-    while (true) {
-        System.out.print(arrayName + "[" + index + "] = ");
-        if (scanner.hasNextInt()) {
-            value = scanner.nextInt();
-            if (value >= 0 && value <= 9)
-                return value;
-            else
-                System.out.println("Invalid entry! Value must be between 0 and 9.");
-        } else {
-            System.out.println("Invalid input! Please enter an integer.");
-            scanner.next(); // clear invalid input
+            // After an operation, allow the user to repeat the selection or return
+            System.out.println(RED + "Press Enter to continue..." + RESET);
+            scanner.nextLine();
         }
     }
-}
+
+    //  ------------------------- B-1 PRIME NUMBERS  -------------------------
+
+    public static void primeNumbers(Scanner scanner)
+    {
+        clearScreen();  // Screen should be cleared
+        // Display Prime Numbers submenu
+        System.out.println(RED + "===============================================" + RESET);
+        System.out.println(YELLOW + "                 Prime Numbers ");
+        System.out.println(RED + "===============================================" + RESET);
+        System.out.println(BLUE + "-----------------------------------------------" + RESET);
 
 
-    // Uygulamaların fonksiyonlarını yaparken A-B-C-D diye gidelim, Fonksiyon sırası ona göre olsun sonradan kafa karıştırmasın
+
+
+    }
 
 
 
 
+
+
+
+    //  ------------------------- B-2 STEP-BY-STEP EVALUATION OF EXPRESSION  -------------------------
+
+    public static void stepByStepEvaluationOfExpression(Scanner scanner)
+    {
+        clearScreen();  // Screen should be cleared
+        // Display Step-by-step Evaluation of Expression submenu
+        System.out.println(RED + "===============================================" + RESET);
+        System.out.println(YELLOW + "     Step-by-step Evaluation of Expression ");
+        System.out.println(RED + "===============================================" + RESET);
+        System.out.println(BLUE + "-----------------------------------------------" + RESET);
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+    //  ------------------------- C HIGH SCHOOL  -------------------------
+
+    public static void highSchoolMenu(Scanner scanner)
+    {
+        clearScreen(); // Screen should be cleared
+        while(true)
+        {
+            clearScreen();  // Screen should be cleared
+            // Display High School submenu
+            System.out.println(RED + "===============================================" + RESET);
+            System.out.println(YELLOW + "                High School Menu" + RESET);
+            System.out.println(RED + "===============================================" + RESET);
+            System.out.println(PURPLE + "1. Statistical Information about an Array");
+            System.out.println("2. Distance between Two Arrays");
+            System.out.println("3. Return to Main Menu" + RESET);
+            System.out.println(BLUE + "-----------------------------------------------" + RESET);
+            System.out.print(CYAN + "Please select an operation: " + RESET);
+
+            String choice = scanner.nextLine();
+            switch (choice)
+            {
+                case "1":
+                    statisticalInformationAboutAnArray(scanner);
+                    break;
+                case "2":
+                    distanceBetweenTwoArrays(scanner);
+                    break;
+                case "3":
+                    return; // Go back to the main menu
+                default:
+                    System.out.println(RED + "Invalid option. Please try again." + RESET);
+            }
+            // After an operation, allow the user to repeat the selection or return
+            System.out.println(RED + "Press Enter to continue..." + RESET);
+            scanner.nextLine();
+        }
+
+    }
+
+    //  ------------------------- C-1 STATISTICAL INFORMATION ABOUT AN ARRAY  -------------------------
+
+    public static void statisticalInformationAboutAnArray(Scanner scanner)
+    {
+        clearScreen();  // Screen should be cleared
+        // Display Statistical Information about an Array submenu
+        System.out.println(RED + "===============================================" + RESET);
+        System.out.println(YELLOW + "    Statistical Information about an Array ");
+        System.out.println(RED + "===============================================" + RESET);
+        System.out.println(BLUE + "-----------------------------------------------" + RESET);
+
+
+
+
+    }
+
+
+
+
+
+
+
+    //  ------------------------- C-2 DISTANCE BETWEEN TWO ARRAYS  -------------------------
+
+    public static void distanceBetweenTwoArrays(Scanner scanner)
+    {
+        clearScreen();  // Screen should be cleared
+        // Display Distance between Two Arrays submenu
+        System.out.println(RED + "===============================================" + RESET);
+        System.out.println(YELLOW + "          Distance between Two Arrays ");
+        System.out.println(RED + "===============================================" + RESET);
+        System.out.println(BLUE + "-----------------------------------------------" + RESET);
+
+
+
+
+    }
+
+
+
+
+
+
+
+    //  ------------------------- D UNIVERSITY  -------------------------
 
     public static void universityMenu(Scanner scanner)
     {
         clearScreen(); // Screen should be cleared
         while(true)
         {
-            clearScreen();
+            clearScreen();  // Screen should be cleaned
             // Display University submenu
             System.out.println(RED + "===============================================" + RESET);
-            System.out.println(YELLOW + "               University Menu" + RESET);
+            System.out.println(YELLOW + "                University Menu" + RESET);
             System.out.println(RED + "===============================================" + RESET);
             System.out.println(PURPLE + "1. Connect Four");
             System.out.println("2. Return to Main Menu" + RESET);
@@ -451,6 +519,9 @@ private static int getValidElement(Scanner scanner, int index, String arrayName)
             scanner.nextLine();
         }
     }
+
+
+    //  ------------------------- D-1 CONNECT FOUR  -------------------------
 
     public static void connectFour(Scanner scanner)
     {
@@ -485,7 +556,7 @@ private static int getValidElement(Scanner scanner, int index, String arrayName)
     {
         while(true)
         {
-            clearScreen();
+            clearScreen();  // Screeen should be cleaned
             // Display connect four subsubmenu / board selection
             System.out.println(RED + "===============================================" + RESET);
             System.out.println(YELLOW  + "                 Connect Four " + RESET);
@@ -523,10 +594,10 @@ private static int getValidElement(Scanner scanner, int index, String arrayName)
     {
         while(true)
         {
-            clearScreen();
+            clearScreen();  // Screen should be cleaned
             // Display connect four subsubmenu
             System.out.println(RED + "===============================================" + RESET);
-            System.out.println(YELLOW + "                 Game Mode" + RESET);
+            System.out.println(YELLOW + "                   Game Mode" + RESET);
             System.out.println(RED + "===============================================" + RESET);
             System.out.println(PURPLE + "1. Player vs Player");
             System.out.println("2. Player vs Computer");
@@ -675,12 +746,12 @@ private static int getValidElement(Scanner scanner, int index, String arrayName)
 
         while (true)
         {
-            clearScreen();
+            clearScreen();  // Screen should be cleared
             System.out.println(RED + "===============================================" + RESET);
             System.out.println(YELLOW + "          Player vs Computer Setup" + RESET);
             System.out.println(RED + "===============================================" + RESET);
             System.out.println(BLUE + "-----------------------------------------------" + RESET);
-            System.out.print(CYAN + "Do you want to be X (first) or O (second)? " + RESET);
+            System.out.print(CYAN + "Do you want to be X (first) or O (second)? Enter X or O: " + RESET);
             String choice = scanner.nextLine().trim().toUpperCase(); // .trim() removes all leading and trailing whitespace characters
             if (choice.equals("X"))
             {
@@ -695,7 +766,11 @@ private static int getValidElement(Scanner scanner, int index, String arrayName)
                 break;
             }
             else
-                System.out.println(RED + "Invalid choice. Please type X or O." + RESET);
+            {
+                System.out.println(RED + "Invalid choice. Please type X or O.");
+                System.out.println("Press Enter to continue..." + RESET);
+                scanner.nextLine();
+            }
         }
 
         char currentPlayer = 'X'; // X starts first
