@@ -3,7 +3,17 @@ import java.time.LocalDate;
 import java.util.InputMismatchException;
 import java.util.Random;
 
-public class Oop{
+public class Oop
+{
+    // ANSI color codes
+    public static final String RESET = "\033[0m";
+    public static final String YELLOW = "\033[33m";
+    public static final String RED = "\033[31m";
+    public static final String PURPLE = "\033[35m";
+    public static final String BLUE = "\033[34m";
+    public static final String GREEN = "\033[32m";
+    public static final String CYAN = "\033[36m";
+
 
     public static void main(String[] args)
     {
@@ -12,28 +22,28 @@ public class Oop{
         Scanner scanner = new Scanner(System.in);
         while(true)
         {
-           displayMainMenu();
-           String choice = scanner.nextLine().toUpperCase(); //Bunu bizim yapmamız da gerekebilir fonksiyon kullanımında nasıl sınır var bakarız
-           switch (choice)
-           {
-               case "A":
-                   primarySchoolMenu(scanner);
-                   break;
-               case "B":
-                   //secondarySchoolMenu(scanner);
-                   break;
-               case "C":
-                   highSchoolMenu(scanner);
-                   break;
-               case "D":
-                   //universityMenu(scanner);
-                   break;
-               case "E":
-                   System.out.println("Terminating the application. Goodbye!");
-                   return;
-               default:
-                   System.out.println(RED + "Invalid option. Please try again." + RESET);
-           }
+            displayMainMenu();
+            String choice = scanner.nextLine().toUpperCase(); //Bunu bizim yapmamız da gerekebilir fonksiyon kullanımında nasıl sınır var bakarız
+            switch (choice)
+            {
+                case "A":
+                    primarySchoolMenu(scanner);
+                    break;
+                case "B":
+                    //secondarySchoolMenu(scanner);
+                    break;
+                case "C":
+                    //highSchoolMenu(scanner);
+                    break;
+                case "D":
+                    universityMenu(scanner);
+                    break;
+                case "E":
+                    System.out.println("Terminating the application. Goodbye!");
+                    return;
+                default:
+                    System.out.println(RED + "Invalid option. Please try again." + RESET);
+            }
         }
     }
 
@@ -280,142 +290,483 @@ public class Oop{
         } else {
             zodiacSign = "Invalid date";
         }
-        System.out.println("Your zodiac sign is: " + zodiacSign);
+        System.out.println(YELLOW + "Your zodiac sign is: " + zodiacSign + RESET);
+        System.out.println(RED + "===============================================" + RESET);
     }
 
-    public static void highSchoolMenu(Scanner scanner)
-{
-    // Screen should be cleared
-    System.out.print("\033[H\033[2J");
-    System.out.flush();
 
-    while (true)
+
+
+    // Uygulamaların fonksiyonlarını yaparken A-B-C-D diye gidelim, Fonksiyon sırası ona göre olsun sonradan kafa karıştırmasın
+
+
+
+
+
+    public static void universityMenu(Scanner scanner)
     {
-        // Display High School submenu
-        System.out.println("\n--- Highschool Menu ---");
-        System.out.println("1. Statistical Information About An Array");
-        System.out.println("2. Distance Between Two Arrays");
-        System.out.println("3. Return to Main Menu");
-        System.out.print("Please select an operation: ");
-
-        String choice = scanner.nextLine();
-        switch (choice)
+        clearScreen(); // Screen should be cleared
+        while(true)
         {
-            case "1":
-                // statisticalInformationAboutAnArray(scanner);
-                break;
-            case "2":
-                distanceBetweenTwoArrays(scanner);
-                break;
-            case "3":
-                return; // Go back to the main menu
-            default:
-                System.out.println("Invalid option. Please try again.");
-                break; // yiğit önceki bodylerde burada break yok, istersen mantıklı mı diye bir bak kullanımı
-        } 
+            clearScreen();
+            // Display University submenu
+            System.out.println(RED + "===============================================" + RESET);
+            System.out.println(YELLOW + "               University Menu" + RESET);
+            System.out.println(RED + "===============================================" + RESET);
+            System.out.println(PURPLE + "1. Connect Four");
+            System.out.println("2. Return to Main Menu" + RESET);
+            System.out.println(BLUE + "-----------------------------------------------" + RESET);
+            System.out.print(CYAN + "Please select an operation: " + RESET);
+            String choice = scanner.nextLine();
+            switch (choice)
+            {
+                case "1":
+                    connectFour(scanner);
+                    break;
+                case "2":
+                    return; // Go back to the main menu
+                default:
+                    System.out.println(RED + "Invalid option. Please try again." + RESET);
+            }
+            // After an operation, allow the user to repeat the selection or return
+            System.out.println(RED + "Press Enter to continue..." + RESET);
+            scanner.nextLine();
+        }
+    }
 
-    } 
-} 
+    public static void connectFour(Scanner scanner)
+    {
+        int sizeOfBoard = boardSize(scanner);
+        if(sizeOfBoard == 4)
+            return;
+
+        // board size a göre row ve colu ayarlıyor
+        int rows = 0, cols = 0;
+        if(sizeOfBoard == 1) { cols = 5; rows = 4; }
+        else if(sizeOfBoard == 2) { cols = 6; rows = 5; }
+        else if(sizeOfBoard == 3) { cols = 7; rows = 6; }
+
+        char[][] board = new char[rows][cols]; // Creating board
+        for (int r = 0; r < rows; r++)
+            for (int c = 0; c < cols; c++)
+                board[r][c] = ' ';
+
+        int modeOfGame = gameMode(scanner);
+
+        if (modeOfGame == 1)
+            playPvP(scanner, board, rows, cols); // PvP
+        else if (modeOfGame == 2)
+            playPvC(scanner, board, rows, cols); // PvC
+        else
+            return;
+
+    }
+
+    // Selecting the board size
+    public static int boardSize(Scanner scanner)
+    {
+        while(true)
+        {
+            clearScreen();
+            // Display connect four subsubmenu / board selection
+            System.out.println(RED + "===============================================" + RESET);
+            System.out.println(YELLOW  + "                 Connect Four " + RESET);
+            System.out.println(RED + "===============================================" + RESET);
+            System.out.println(YELLOW  + "             Select The Board Size " + RESET);
+            System.out.println(RED + "===============================================" + RESET);
+            System.out.println(PURPLE + "1. 5x4");
+            System.out.println("2. 6x5");
+            System.out.println("3. 7x6");
+            System.out.println("4. Return to University Menu" + RESET);
+            System.out.println(BLUE + "-----------------------------------------------" + RESET);
+            System.out.print(CYAN + "Please select an operation: " + RESET);
+            String choice = scanner.nextLine();
+            switch (choice)
+            {
+                case "1":
+                    return 1;
+                case "2":
+                    return 2;
+                case "3":
+                    return 3;
+                case "4":
+                    return 4; // Go back to the main menu
+                default:
+                    System.out.println(RED + "Invalid option. Please try again." + RESET);
+            }
+            // After an operation, allow the user to repeat the selection or return
+            System.out.println(RED + "Press Enter to continue..." + RESET);
+            scanner.nextLine();
+        }
+    }
+
+    // Choose the game mode
+    public static int gameMode(Scanner scanner)
+    {
+        while(true)
+        {
+            clearScreen();
+            // Display connect four subsubmenu
+            System.out.println(RED + "===============================================" + RESET);
+            System.out.println(YELLOW + "                 Game Mode" + RESET);
+            System.out.println(RED + "===============================================" + RESET);
+            System.out.println(PURPLE + "1. Player vs Player");
+            System.out.println("2. Player vs Computer");
+            System.out.println("3. Return to University Menu");
+            System.out.println(BLUE + "-----------------------------------------------" + RESET);
+            System.out.print(CYAN + "Please select an operation: " + RESET);
+            String choice = scanner.nextLine();
+            switch (choice) {
+                case "1":
+                    return 1;
+                case "2":
+                    return 2;
+                case "3":
+                    return 3; // Go back to the main menu
+                default:
+                    System.out.println(RED + "Invalid option. Please try again." + RESET);
+            }
+            // After an operation, allow the user to repeat the selection or return
+            System.out.println(RED + "Press Enter to continue..." + RESET);
+            scanner.nextLine();
+        }
+    }
+
+    // Prints board
+    public static void printBoard(char[][] board, int rows, int cols)
+    {
+        clearScreen();
+        System.out.print("   ");
+        for (int c = 0; c < cols; c++) System.out.print(" " + (c + 1) + "  ");
+        System.out.println();
+
+        System.out.print("  ┌");
+        for (int c = 0; c < cols; c++)
+        {
+            System.out.print("───");
+            if (c == cols - 1) System.out.print("┐");
+            else System.out.print("┬");
+        }
+        System.out.println();
+
+        for (int r = 0; r < rows; r++)
+        {
+            System.out.print((r + 1) + " │");
+            for (int c = 0; c < cols; c++)
+            {
+                char symbol = board[r][c];
+                String coloredSymbol = (symbol == 'X') ? RED + "X" + RESET :
+                        (symbol == 'O') ? YELLOW + "O" + RESET : " ";
+                System.out.print(" " + coloredSymbol + " │");
+            }
+            System.out.println();
+
+            if (r < rows - 1)
+            {
+                System.out.print("  ├");
+                for (int c = 0; c < cols; c++) {
+                    System.out.print("───");
+                    if (c == cols - 1) System.out.print("┤");
+                    else System.out.print("┼");
+                }
+            }
+            else
+            {
+                System.out.print("  └");
+                for (int c = 0; c < cols; c++)
+                {
+                    System.out.print("───");
+                    if (c == cols - 1) System.out.print("┘");
+                    else System.out.print("┴");
+                }
+            }
+            System.out.println();
+        }
+    }
 
 
+    public static void playPvP(Scanner scanner, char[][] board, int rows, int cols)
+    {
+        char currentPlayer = 'X';
+        printBoard(board, rows, cols);
 
-public static void distanceBetweenTwoArrays(Scanner scanner){
-    System.out.print("\033[H\033[2J");
-    System.out.flush();
+        while (true)
+        {
+            System.out.println(BLUE + "-----------------------------------------------" + RESET);
+            System.out.println(CYAN + "Player " + currentPlayer + ", choose a column (1-" + cols + "), or 0 to quit:" + RESET);
+            String input = scanner.nextLine();
 
-    int n = 0;
-    // step1 : get array dimension
-    while (true){
-        System.out.print("Enter the dimension of the arrays: ");
-        if(scanner.hasNextInt()){
-            n = scanner.nextInt();
-            if(n > 0) {
+            if (input.equals("0"))
+            {
+                System.out.println(RED + "Player " + currentPlayer + " forfeited the game." + RESET);
                 break;
             }
-            else {
-                System.out.println("Dimension must be positive.");
+
+            int col;
+            try
+            {
+                col = Integer.parseInt(input) - 1;
+            } catch (NumberFormatException e) {
+                System.out.println(RED + "Invalid input. Please enter a number." + RESET);
+                continue;
+            }
+
+            if (col < 0 || col >= cols)
+            {
+                System.out.println(RED + "Column out of range. Try again." + RESET);
+                continue;
+            }
+
+            if (board[0][col] != ' ')
+            {
+                System.out.println(RED + "That column is full. Try another one." + RESET);
+                continue;
+            }
+
+            // Disc dropping effect
+            dropDiscWithAnimation(board, rows, col, currentPlayer);
+            printBoard(board, rows, cols);
+
+            // Checks win
+            if (checkWinner(board, currentPlayer))
+            {
+                System.out.println(GREEN + "Player " + currentPlayer + " wins! 🎉" + RESET);
+                break;
+            }
+
+            // Checks tie
+            if (isBoardFull(board))
+            {
+                System.out.println(YELLOW + "It's a draw!" + RESET);
+                break;
+            }
+
+            // Change the disc
+            currentPlayer = (currentPlayer == 'X') ? 'O' : 'X';
         }
-            
-    }
-    else {
-                System.out.println("Invalid input! Please enter an integer.");
-                scanner.next();
-    }
     }
 
-    int [] A = new int [n];
-    int [] B = new int [n];
 
-    //step2 get valid inputs
+    public static void playPvC(Scanner scanner, char[][] board, int rows, int cols) // Player vs computer
+    {
+        Random random = new Random();
 
-    System.out.println("Enter elements for Array A (integers between 0-9):");
-    for(int i = 0; i < n; i++){
-        A[i] = getValidElement(scanner, i , "A");
-    }
+        // Player chooses the disc
+        char playerSymbol = 'X';
+        char computerSymbol = 'O';
 
-    System.out.println("Enter elements for Array B (integer between 0-9):");
-    for(int i = 0; i < n; i++){
-        B[i] = getValidElement(scanner, i, "B");
-    }
-
-    // step3 computing
-
-    double manhattan = 0;
-    double euclideanSum = 0;
-    double dotProduct = 0, magA = 0, magB = 0;
-
-    for(int i = 0; i < n; i++){
-        manhattan  += Math.abs(A[i] - B[i]);
-        euclideanSum += Math.pow(A[i] - B[i], 2);
-        dotProduct += A[i] * B[i];
-        magA += Math.pow(A[i], 2);
-        magB += Math.pow(B[i], 2);
-    }
-
-    double euclidean = Math.sqrt(euclideanSum);
-    double cosineSimilarity = dotProduct / (Math.sqrt(magA)* Math.sqrt(magB));
-
-    System.out.printf("\n--- Results ---\n");
-    System.out.printf("Manhattan Distance: %.3f\n", manhattan);
-    System.out.printf("Euclidean Distance: %.3f\n", euclidean);
-    System.out.printf("Cosine Similarity: %.3f\n", cosineSimilarity);
-
-    scanner.nextLine(); // clear newline before returning
-    System.out.println("\nPress Enter to return to the menu...");
-    scanner.nextLine();
-}
-
-private static int getValidElement(Scanner scanner, int index, String arrayName)
-{
-    int value;
-    while (true) {
-        System.out.print(arrayName + "[" + index + "] = ");
-        if (scanner.hasNextInt()) {
-            value = scanner.nextInt();
-            if (value >= 0 && value <= 9)
-                return value;
+        while (true)
+        {
+            clearScreen();
+            System.out.println(RED + "===============================================" + RESET);
+            System.out.println(YELLOW + "          Player vs Computer Setup" + RESET);
+            System.out.println(RED + "===============================================" + RESET);
+            System.out.println(BLUE + "-----------------------------------------------" + RESET);
+            System.out.print(CYAN + "Do you want to be X (first) or O (second)? " + RESET);
+            String choice = scanner.nextLine().trim().toUpperCase(); // .trim() removes all leading and trailing whitespace characters
+            if (choice.equals("X"))
+            {
+                playerSymbol = 'X';
+                computerSymbol = 'O';
+                break;
+            }
+            else if (choice.equals("O"))
+            {
+                playerSymbol = 'O';
+                computerSymbol = 'X';
+                break;
+            }
             else
-                System.out.println("Invalid entry! Value must be between 0 and 9.");
-        } else {
-            System.out.println("Invalid input! Please enter an integer.");
-            scanner.next(); // clear invalid input
+                System.out.println(RED + "Invalid choice. Please type X or O." + RESET);
+        }
+
+        char currentPlayer = 'X'; // X starts first
+        printBoard(board, rows, cols);
+
+        while (true)
+        {
+            if (currentPlayer == playerSymbol)
+            {
+                // Player turn
+                int col;
+                System.out.println(BLUE + "-----------------------------------------------" + RESET);
+                System.out.println(CYAN + "Your turn (" + playerSymbol + "). Choose a column (1-" + cols + "), or 0 to quit:" + RESET);
+                String input = scanner.nextLine();
+
+                if (input.equals("0"))
+                {
+                    System.out.println(RED + "You forfeited the game." + RESET);
+                    break;
+                }
+
+                try
+                {
+                    col = Integer.parseInt(input) - 1;
+                } catch (NumberFormatException e) {
+                    System.out.println(RED + "Invalid input. Please enter a number." + RESET);
+                    continue;
+                }
+
+                if (col < 0 || col >= cols)
+                {
+                    System.out.println(RED + "Column out of range. Try again." + RESET);
+                    continue;
+                }
+
+                if (board[0][col] != ' ')
+                {
+                    System.out.println(RED + "That column is full. Try another one." + RESET);
+                    continue;
+                }
+
+                dropDiscWithAnimation(board, rows, col, playerSymbol);
+                printBoard(board, rows, cols);
+
+                if (checkWinner(board, playerSymbol))
+                {
+                    System.out.println(GREEN + "You win! 🎉" + RESET);
+                    break;
+                }
+
+                if (isBoardFull(board))
+                {
+                    System.out.println(YELLOW + "It's a draw!" + RESET);
+                    break;
+                }
+
+                currentPlayer = computerSymbol; // Computer turn
+            }
+            else
+            {
+                // Computer turn
+                System.out.println(YELLOW + "Computer (" + computerSymbol + ") is thinking..." + RESET);
+                try
+                {
+                    Thread.sleep(600);
+                }catch (InterruptedException e)
+                {
+                    Thread.currentThread().interrupt();
+                }
+
+                int computerCol;
+                do
+                {
+                    computerCol = random.nextInt(cols);
+                } while (board[0][computerCol] != ' ');
+
+                dropDiscWithAnimation(board, rows, computerCol, computerSymbol);
+                printBoard(board, rows, cols);
+
+                if (checkWinner(board, computerSymbol))
+                {
+                    System.out.println(RED + "Computer wins! 💻" + RESET);
+                    break;
+                }
+
+                if (isBoardFull(board))
+                {
+                    System.out.println(YELLOW + "It's a draw!" + RESET);
+                    break;
+                }
+
+                currentPlayer = playerSymbol; // Turn for player
+            }
         }
     }
+
+
+    public static void dropDiscWithAnimation(char[][] board, int rows, int col, char player)
+    {
+        int dropRow = -1;
+        for (int r = 0; r < rows; r++)
+        {
+            if (r == rows - 1 || board[r + 1][col] != ' ')
+            {
+                dropRow = r;
+                break;
+            }
+        }
+
+        // Disk dropping effect
+        for (int fallingRow = 0; fallingRow <= dropRow; fallingRow++)
+        {
+            if (fallingRow > 0) board[fallingRow - 1][col] = ' ';
+            board[fallingRow][col] = player;
+
+            printBoard(board, rows, board[0].length);
+            try
+            {
+                Thread.sleep(120);
+            } catch (InterruptedException e)
+            {
+                Thread.currentThread().interrupt();
+            }
+        }
+
+        board[dropRow][col] = player;
+    }
+
+    // Cheks the winner
+    public static boolean checkWinner(char[][] board, char player)
+    {
+        int rows = board.length;
+        int cols = board[0].length;
+
+        // Checks the rows
+        for (int r = 0; r < rows; r++)
+        {
+            for (int c = 0; c < cols - 3; c++)
+            {
+                if (board[r][c] == player && board[r][c+1] == player &&
+                        board[r][c+2] == player && board[r][c+3] == player)
+                    return true;
+            }
+        }
+
+        // Checks the cols
+        for (int c = 0; c < cols; c++)
+        {
+            for (int r = 0; r < rows - 3; r++)
+            {
+                if (board[r][c] == player && board[r+1][c] == player &&
+                        board[r+2][c] == player && board[r+3][c] == player)
+                    return true;
+            }
+        }
+
+        // Checks bottom-right diagonal
+        for (int r = 0; r < rows - 3; r++)
+        {
+            for (int c = 0; c < cols - 3; c++)
+            {
+                if (board[r][c] == player && board[r+1][c+1] == player &&
+                        board[r+2][c+2] == player && board[r+3][c+3] == player)
+                    return true;
+            }
+        }
+
+        // Checks bottom-left diagonal
+        for (int r = 0; r < rows - 3; r++)
+        {
+            for (int c = 3; c < cols; c++)
+            {
+                if (board[r][c] == player && board[r+1][c-1] == player &&
+                        board[r+2][c-2] == player && board[r+3][c-3] == player)
+                    return true;
+            }
+        }
+
+        return false;
+    }
+
+    // Boards is full or not
+    public static boolean isBoardFull(char[][] board)
+    {
+        for (int c = 0; c < board[0].length; c++)
+        {
+            if (board[0][c] == ' ')
+                return false;
+        }
+        return true;
+    }
 }
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-}
-
-    
