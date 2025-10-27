@@ -33,7 +33,7 @@ public class Oop
                     //secondarySchoolMenu(scanner);
                     break;
                 case "C":
-                    //highSchoolMenu(scanner);
+                    highSchoolMenu(scanner);
                     break;
                 case "D":
                     universityMenu(scanner);
@@ -294,7 +294,125 @@ public class Oop
         System.out.println(RED + "===============================================" + RESET);
     }
 
+    public static void highSchoolMenu(Scanner scanner)
+{
+    // Screen should be cleared
+    System.out.print("\033[H\033[2J");
+    System.out.flush();
 
+    while (true)
+    {
+        // Display High School submenu
+        System.out.println("\n--- Highschool Menu ---");
+        System.out.println("1. Statistical Information About An Array");
+        System.out.println("2. Distance Between Two Arrays");
+        System.out.println("3. Return to Main Menu");
+        System.out.print("Please select an operation: ");
+
+        String choice = scanner.nextLine();
+        switch (choice)
+        {
+            case "1":
+                // statisticalInformationAboutAnArray(scanner);
+                break;
+            case "2":
+                distanceBetweenTwoArrays(scanner);
+                break;
+            case "3":
+                return; // Go back to the main menu
+            default:
+                System.out.println("Invalid option. Please try again.");
+                break; // yiğit önceki bodylerde burada break yok, istersen mantıklı mı diye bir bak kullanımı
+        } 
+
+    } 
+} 
+
+
+
+public static void distanceBetweenTwoArrays(Scanner scanner){
+    System.out.print("\033[H\033[2J");
+    System.out.flush();
+
+    int n = 0;
+    // step1 : get array dimension
+    while (true){
+        System.out.print("Enter the dimension of the arrays: ");
+        if(scanner.hasNextInt()){
+            n = scanner.nextInt();
+            if(n > 0) {
+                break;
+            }
+            else {
+                System.out.println("Dimension must be positive.");
+        }
+            
+    }
+    else {
+                System.out.println("Invalid input! Please enter an integer.");
+                scanner.next();
+    }
+    }
+
+    int [] A = new int [n];
+    int [] B = new int [n];
+
+    //step2 get valid inputs
+
+    System.out.println("Enter elements for Array A (integers between 0-9):");
+    for(int i = 0; i < n; i++){
+        A[i] = getValidElement(scanner, i , "A");
+    }
+
+    System.out.println("Enter elements for Array B (integer between 0-9):");
+    for(int i = 0; i < n; i++){
+        B[i] = getValidElement(scanner, i, "B");
+    }
+
+    // step3 computing
+
+    double manhattan = 0;
+    double euclideanSum = 0;
+    double dotProduct = 0, magA = 0, magB = 0;
+
+    for(int i = 0; i < n; i++){
+        manhattan  += Math.abs(A[i] - B[i]);
+        euclideanSum += Math.pow(A[i] - B[i], 2);
+        dotProduct += A[i] * B[i];
+        magA += Math.pow(A[i], 2);
+        magB += Math.pow(B[i], 2);
+    }
+
+    double euclidean = Math.sqrt(euclideanSum);
+    double cosineSimilarity = dotProduct / (Math.sqrt(magA)* Math.sqrt(magB));
+
+    System.out.printf("\n--- Results ---\n");
+    System.out.printf("Manhattan Distance: %.3f\n", manhattan);
+    System.out.printf("Euclidean Distance: %.3f\n", euclidean);
+    System.out.printf("Cosine Similarity: %.3f\n", cosineSimilarity);
+
+    scanner.nextLine(); // clear newline before returning
+    System.out.println("\nPress Enter to return to the menu...");
+    scanner.nextLine();
+}
+
+private static int getValidElement(Scanner scanner, int index, String arrayName)
+{
+    int value;
+    while (true) {
+        System.out.print(arrayName + "[" + index + "] = ");
+        if (scanner.hasNextInt()) {
+            value = scanner.nextInt();
+            if (value >= 0 && value <= 9)
+                return value;
+            else
+                System.out.println("Invalid entry! Value must be between 0 and 9.");
+        } else {
+            System.out.println("Invalid input! Please enter an integer.");
+            scanner.next(); // clear invalid input
+        }
+    }
+}
 
 
     // Uygulamaların fonksiyonlarını yaparken A-B-C-D diye gidelim, Fonksiyon sırası ona göre olsun sonradan kafa karıştırmasın
