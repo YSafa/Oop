@@ -313,9 +313,9 @@ public class Oop
         System.out.println(RED + "===============================================" + RESET);
         System.out.println(BLUE + "-----------------------------------------------" + RESET);
 
-        System.out.println("Enter a text:");
+        System.out.print(PURPLE + "Enter a text: " + RESET);
         String str = scanner.nextLine();
-        System.out.println(reverseWord(str,false));
+        System.out.println(YELLOW + reverseWord(str,false) + RESET);
 
     }
 
@@ -730,18 +730,18 @@ public class Oop
         boolean valid = false;
         while(!valid){
             try{
-                System.out.println("Enter array size: ");
+                System.out.print(PURPLE + "Enter array size: " + RESET);
                 n = scanner.nextInt();
 
                 if(n <= 0){
-                    System.out.println("Array size must be positive. ");
+                    System.out.println(RED + "Array size must be positive. " + RESET);
                 }
                 else{
                     valid = true;
                 }
             }
             catch(InputMismatchException e){
-                System.out.println("Please try again:");
+                System.out.println(RED + "Please try again: " + RESET);
                 scanner.nextLine();
             }
         }
@@ -752,22 +752,23 @@ public class Oop
             boolean input = false;
             while(!input){
                 try{
-                    System.out.println((i+1) + ". element.");
+                    System.out.print(CYAN + (i+1) + ". element: " + RESET);
                     arr[i] = scanner.nextDouble();
                     input = true;
                 }catch(InputMismatchException e){
-                    System.out.println("Incorrect entry! Please enter a value in numeric format.");
+                    System.out.println(RED + "Incorrect entry! Please enter a value in numeric format." + RESET);
                     scanner.nextLine();
                 }
             }
         }
 
 
-        System.out.println("The arithmetic mean of array is: " + arithmeticMean(arr,n));
-        System.out.println("The geometric mean of array is: " + geometricMean(arr,n));
-        System.out.println("The harmonic mean of array is: " + n / harmonicSum(arr,0));
-        System.out.println("The median of array is: " + median(arr,n));
+        System.out.println(PURPLE + "The arithmetic mean of array is: " + RESET + YELLOW + arithmeticMean(arr,n) + RESET);
+        System.out.println(PURPLE + "The geometric mean of array is: " + RESET + YELLOW + geometricMean(arr,n) + RESET);
+        System.out.println(PURPLE + "The harmonic mean of array is: " + RESET + YELLOW + n / harmonicSum(arr,0) + RESET);
+        System.out.println(PURPLE + "The median of array is: " + RESET + YELLOW +median(arr,n) + RESET);
 
+        scanner.nextLine();
     }
 
     public static double arithmeticMean(double[] arr, int n){
@@ -800,7 +801,7 @@ public class Oop
         if(index == arr.length) // arrayin sonuysa toplama 0 döndür
             return 0;
         if(arr[index] == 0){ //eğer eleman 0 ise 0'a bölüm hatasından kaçınır
-            System.out.println("Warning: 0 value found at array");
+            System.out.println(RED + "Warning: 0 value found at array" + RESET);
             return harmonicSum(arr,index+1);
         }
         return (1.0/arr[index]) + harmonicSum(arr, index +1); //recursive olarak, 1/sayı + kalan şeklinde devam edecek
