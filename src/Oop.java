@@ -360,7 +360,7 @@ public class Oop
 
     //  ------------------------- B-1 PRIME NUMBERS  -------------------------
 
-    public static void primeNumbers(Scanner scanner)
+    public static void primeNumbers(Scanner input)
     {
         clearScreen();  // Screen should be cleared
         // Display Prime Numbers submenu
@@ -369,11 +369,241 @@ public class Oop
         System.out.println(RED + "===============================================" + RESET);
         System.out.println(BLUE + "-----------------------------------------------" + RESET);
 
+        int number = 0;
+        boolean valid = false;
 
+        while (!valid)
+        {
+            System.out.print("Enter your number(≥12): ");
 
+            if (input.hasNextInt() == true) // checking if its number
+            {
+                number = input.nextInt(); // take the number
+                if (number >= 12)
+                {
+                    valid = true;
+                }
+                else
+                {
+                    System.out.println("Number must be ≥ 12 . Try again!");
+                }
+            }
+            else    // if it's not a number
+            {
+                System.out.println("Invalid input. You should enter a number!");
+                input.next();  // clear the wrong input
+            }
+        }
+
+        sieveEratosthenes(number);
+        sieveSundaram(number);
+        sieveAtkin(number);
 
     }
+    public static void sieveEratosthenes(int n)
+    {
 
+        // Sieve of Eratosthenes ALGORITMASI //
+        long startTime = System.nanoTime(); // zaman için başlangıç
+
+        boolean[] isPrime = new boolean[n + 1]; // n+1, çünkü kullanıcı 10 girerse kontrol etmemiz gereken 11 sayı var
+
+        for (int i = 0; i <= n; i++)
+        {
+            isPrime[i] = true;  // tüm sayılar asal olarak işaretleniyor
+        }
+
+        isPrime[0] = false;  // 0 ve 1 asal sayı olmadığı için false
+        isPrime[1] = false;
+
+        // asal olmayan sayıları eleme kısmı
+        for (int i = 2; i * i <= n; i++)
+        {
+            if (isPrime[i] == true) // bu algoritma sayıların katlarını silip
+            {                     // kalan sayıları prime olarak işaretler
+                for (int j = i * i; j <= n; j = j + i)
+                {
+                    isPrime[j] = false;
+                }
+            }
+        }
+        long endTime = System.nanoTime(); // bitiş zamanı
+        double elapsedTime = (endTime - startTime);
+
+        // asal sayıları yeni arraye aktarma
+        int[] primes = new int[n];
+        int count = 0;
+
+        for (int i = 2; i <= n; i++)
+        {
+            if (isPrime[i] == true)
+            {
+                primes[count] = i; // sayıyı diziye atama
+                count++;  // kaç tane asal var, onu sayma
+            }
+        }
+
+        System.out.println("-Sieve of Eratosthenes-");
+        if (count >= 5)
+        {
+            System.out.println("First 3 primes : ");
+            for (int i = 0; i < 3; i++)
+            {
+                System.out.print(primes[i] + " ");
+            }
+            System.out.println();
+            System.out.println("Last 2 primes : ");
+            System.out.print(primes[count - 2] + " ");
+            System.out.print(primes[count - 1]);
+        }
+        System.out.println();
+        System.out.println("Execution time is : " + elapsedTime + " nanoseconds.");
+        System.out.println();
+    }
+
+
+    public static void sieveSundaram(int n)
+    {
+        // Sieve of Sundaram ALGORITMASI //
+
+
+        long startTime = System.nanoTime();
+        int limit = (n - 2) / 2; // sadece tek sayılarla çalışılacağı için limit değer belirliyoruz
+
+        boolean[] marked = new boolean[limit+1];
+
+        for(int i = 1 ; i <= limit ; i++)
+        {
+            for(int j=i ; j <= (limit - i ) / (2 * i + 1) ; j++)  // i ve j çiftleriyle asal olmayan sayıları belirle: i + j + 2*i*j <= limit
+            {
+                marked[i + j + 2 * i * j ] = true;
+            }
+        }
+        long endTime = System.nanoTime();
+        double elapsedTime = (endTime-startTime);
+
+        int[] primes = new int[n];
+        int count=0;
+
+        primes[count]=2; // 2 sayısı tek olmadığı için formülde çıkmaz
+        count++; // o yüzden biz ekliyoruz.
+
+        for(int i = 1 ; i <= limit ; i++)
+        {
+            if( marked[i] == false ) // eğer false ise, sayı elenmemiştir. yani asal olabilir.
+            {
+                int prime = 2 * i + 1; // elenmeyen i değerleri için asal sayı üretiliyor
+
+                if( prime <= n ) // oluşturulan asal sayı kullanıcıdan alınan sayıdan büyük olmamalı
+                {
+                    primes[count]=prime;
+                    count++;
+                }
+            }
+        }
+        System.out.println("-Sieve of Sundaram-");
+
+        System.out.println("First 3 primes : ");
+        for(int i = 0 ; i < 3 ; i++)
+        {
+            System.out.print(primes[i]+" ");
+        }
+        System.out.println();
+
+        System.out.println("Last 2 primes : ");
+        System.out.print(primes[count - 2] + " ");
+        System.out.print(primes[count - 1]);
+        System.out.println();
+        System.out.println("Execution time is : " + elapsedTime + " nanoseconds.");
+        System.out.println();
+    }
+
+    public static void sieveAtkin(int n)
+    {
+        long startTime = System.nanoTime();
+
+        boolean[] isPrime = new boolean[n+1];
+
+
+        if ( n>2 )
+        {
+            isPrime[2] = true;
+        }
+        if ( n>3 )
+        {
+            isPrime[3] = true;
+        }
+
+        for(int x = 1 ; x * x <= n ; x++)
+        {
+            for(int y = 1 ; y*y <=n ; y++)
+            {
+                // n = 4x^2 + y^2
+                int num = 4 * x * x + y * y;
+                if(num <= n && (num %12 == 1 || num % 12 == 5))
+                {
+                    isPrime[num] = !isPrime[num];
+                }
+                // n = 3x^2 + y^2
+                num = 3 * x * x + y * y;
+                if(num <= n && (num % 12 == 7))
+                {
+                    isPrime[num] = !isPrime[num];
+                }
+
+                // n = 3x^2 - y^2
+                num = 3 * x * x - y * y;
+                if(x > y && num <= n && (num % 12 == 11))
+                {
+                    isPrime[num] = !isPrime[num];
+                }
+            }
+        }
+
+        for(int i = 5 ; i * i <= n ; i++)
+        {
+            if(isPrime[i])
+            {
+                for(int j = i * i ; j <= n ; j = j + i * i)
+                {
+                    isPrime[j] = false;
+                }
+            }
+        }
+        long endTime = System.nanoTime();
+        double elapsedTime = (endTime-startTime);
+
+        int[] primes = new int[n];
+        int count = 0 ;
+
+
+        // asalları diziye aktarma
+        for ( int i = 2 ; i <= n ; i++)
+        {
+            if(isPrime[i] == true )
+            {
+                primes[count] = i ;
+                count++;
+            }
+        }
+
+        System.out.println("- Sieve of Atkin -");
+
+        System.out.println("First 3 primes : ");
+        for(int i = 0 ; i < 3 ; i++)
+        {
+            System.out.print(primes[i]+" ");
+        }
+        System.out.println();
+
+        System.out.println("Last 2 primes : ");
+        System.out.print(primes[count - 2] + " ");
+        System.out.print(primes[count - 1]);
+        System.out.println();
+        System.out.println("Execution time is : " + elapsedTime + " nanoseconds.");
+        System.out.println();
+
+    }
 
 
 
