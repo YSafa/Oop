@@ -1,3 +1,4 @@
+import javax.xml.stream.events.EntityReference;
 import java.util.Scanner;
 import java.time.LocalDate;
 import java.util.InputMismatchException;
@@ -221,7 +222,7 @@ public class Oop
         ageCalculator(day, month, year);
         determineZodiacSign(day, month);
 
-        System.out.println(RED + "Press Enter to continue..." + RESET);
+
         scanner.nextLine();
     }
 
@@ -261,7 +262,7 @@ public class Oop
         System.out.println(RED + "===============================================" + RESET);
         System.out.println(YELLOW + "                  Results ");
         System.out.println(RED + "===============================================" + RESET);
-        System.out.println(YELLOW + "Your age is: " + userYear + "Year " + userMonth + "Month " + userDay + "Day" + RESET);
+        System.out.println(PURPLE + "Your age is: " + RESET + YELLOW + userYear + "Year " + userMonth + "Month " + userDay + "Day" + RESET);
         System.out.println(RED + "===============================================" + RESET);
     }
 
@@ -296,7 +297,7 @@ public class Oop
         } else {
             zodiacSign = "Invalid date";
         }
-        System.out.println(YELLOW + "Your zodiac sign is: " + zodiacSign + RESET);
+        System.out.println(PURPLE + "Your zodiac sign is: " + RESET + YELLOW + zodiacSign + RESET);
         System.out.println(RED + "===============================================" + RESET);
     }
 
@@ -374,7 +375,7 @@ public class Oop
 
         while (!valid)
         {
-            System.out.print("Enter your number(≥12): ");
+            System.out.print(CYAN + "Enter your number(≥12): " + RESET);
 
             if (input.hasNextInt() == true) // checking if its number
             {
@@ -385,21 +386,26 @@ public class Oop
                 }
                 else
                 {
-                    System.out.println("Number must be ≥ 12 . Try again!");
+                    System.out.println(RED + "Number must be ≥ 12 . Try again!" + RESET);
                 }
             }
             else    // if it's not a number
             {
-                System.out.println("Invalid input. You should enter a number!");
+                System.out.println(RED + "Invalid input. You should enter a number!" + RESET);
                 input.next();  // clear the wrong input
             }
         }
+
+        clearScreen();
 
         sieveEratosthenes(number);
         sieveSundaram(number);
         sieveAtkin(number);
 
+        input.nextLine();
+
     }
+
     public static void sieveEratosthenes(int n)
     {
 
@@ -442,22 +448,23 @@ public class Oop
                 count++;  // kaç tane asal var, onu sayma
             }
         }
-
-        System.out.println("-Sieve of Eratosthenes-");
+        System.out.println(RED + "===============================================" + RESET);
+        System.out.println(YELLOW + "            Sieve of Eratosthenes" + RESET);
+        System.out.println(RED + "===============================================" + RESET);
         if (count >= 5)
         {
-            System.out.println("First 3 primes : ");
+            System.out.print(PURPLE + "First 3 primes : " + RESET);
             for (int i = 0; i < 3; i++)
             {
-                System.out.print(primes[i] + " ");
+                System.out.print(YELLOW + primes[i] + " " + RESET);
             }
             System.out.println();
-            System.out.println("Last 2 primes : ");
-            System.out.print(primes[count - 2] + " ");
-            System.out.print(primes[count - 1]);
+            System.out.print(PURPLE + "Last 2 primes : " + RESET);
+            System.out.print(YELLOW + primes[count - 2] + " " + RESET);
+            System.out.print(YELLOW + primes[count - 1] + RESET);
         }
         System.out.println();
-        System.out.println("Execution time is : " + elapsedTime + " nanoseconds.");
+        System.out.println(PURPLE + "Execution time is : " + RESET + YELLOW + elapsedTime + " nanoseconds." + RESET);
         System.out.println();
     }
 
@@ -501,20 +508,22 @@ public class Oop
                 }
             }
         }
-        System.out.println("-Sieve of Sundaram-");
+        System.out.println(RED + "===============================================" + RESET);
+        System.out.println(YELLOW + "              Sieve of Sundaram" + RESET);
+        System.out.println(RED + "===============================================" + RESET);
 
-        System.out.println("First 3 primes : ");
+        System.out.print(PURPLE + "First 3 primes : " + RESET);
         for(int i = 0 ; i < 3 ; i++)
         {
-            System.out.print(primes[i]+" ");
+            System.out.print(YELLOW + primes[i] + " " + RESET);
         }
         System.out.println();
 
-        System.out.println("Last 2 primes : ");
-        System.out.print(primes[count - 2] + " ");
-        System.out.print(primes[count - 1]);
+        System.out.print(PURPLE + "Last 2 primes : " + RESET);
+        System.out.print(YELLOW + primes[count - 2] + " " + RESET);
+        System.out.print(YELLOW + primes[count - 1] + RESET);
         System.out.println();
-        System.out.println("Execution time is : " + elapsedTime + " nanoseconds.");
+        System.out.println(PURPLE + "Execution time is : " + RESET+ YELLOW + elapsedTime + " nanoseconds." + RESET);
         System.out.println();
     }
 
@@ -586,21 +595,22 @@ public class Oop
                 count++;
             }
         }
+        System.out.println(RED + "===============================================" + RESET);
+        System.out.println(YELLOW + "                Sieve of Atkin" + RESET);
+        System.out.println(RED + "===============================================" + RESET);
 
-        System.out.println("- Sieve of Atkin -");
-
-        System.out.println("First 3 primes : ");
+        System.out.print(PURPLE + "First 3 primes : " + RESET);
         for(int i = 0 ; i < 3 ; i++)
         {
-            System.out.print(primes[i]+" ");
+            System.out.print(YELLOW + primes[i] + " " + RESET);
         }
         System.out.println();
 
-        System.out.println("Last 2 primes : ");
-        System.out.print(primes[count - 2] + " ");
-        System.out.print(primes[count - 1]);
+        System.out.print(PURPLE + "Last 2 primes : " + RESET);
+        System.out.print(YELLOW + primes[count - 2] + " " + RESET);
+        System.out.print(YELLOW + primes[count - 1] + RESET);
         System.out.println();
-        System.out.println("Execution time is : " + elapsedTime + " nanoseconds.");
+        System.out.println(PURPLE + "Execution time is : " + RESET + YELLOW + elapsedTime + " nanoseconds." + RESET);
         System.out.println();
 
     }
