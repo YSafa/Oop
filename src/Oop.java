@@ -1,4 +1,5 @@
 import javax.xml.stream.events.EntityReference;
+import java.util.Arrays;
 import java.util.Scanner;
 import java.time.LocalDate;
 import java.util.InputMismatchException;
@@ -312,13 +313,44 @@ public class Oop
         System.out.println(RED + "===============================================" + RESET);
         System.out.println(BLUE + "-----------------------------------------------" + RESET);
 
-
-
+        System.out.println("Enter a text:");
+        String str = scanner.nextLine();
+        System.out.println(reverseWord(str,false));
 
     }
 
+    public static String reverseWord(String str, boolean isWord){
 
+        if(str.length() <= 1) //kelime değilse direkt döndürecek
+            return str;
 
+        if(isWord)//kelimeyse ilk harf hariç geri kalanı döndür, ilk harfi sona ekle
+            return reverseWord(str.substring(1),true) + str.charAt(0);
+
+        StringBuilder answer = new StringBuilder();
+
+        int i = 0;
+
+        while(i < str.length() && !Character.isLetter(str.charAt(i))){ //harf olmayanları stringe ekle
+            answer.append(str.charAt(i));
+            i++;
+        }
+
+        int j = i;
+        while(j < str.length() && Character.isLetter(str.charAt(j))) //kelimenin sonunu bulacak
+            j++;
+
+        String word = str.substring(i,j);
+        String rest = str.substring(j);
+
+        if(!word.isEmpty()) //kelimeyse, kelimeyi recursive olarak döndürecek
+            answer.append(reverseWord(word, true));
+        if(!rest.isEmpty()) //kalanı recursive olarak döndürecek
+            answer.append(reverseWord(rest, false));
+
+        return answer.toString();
+
+    }
 
 
 
@@ -694,13 +726,85 @@ public class Oop
         System.out.println(RED + "===============================================" + RESET);
         System.out.println(BLUE + "-----------------------------------------------" + RESET);
 
+        int n = 0;
+        boolean valid = false;
+        while(!valid){
+            try{
+                System.out.println("Enter array size: ");
+                n = scanner.nextInt();
+
+                if(n <= 0){
+                    System.out.println("Array size must be positive. ");
+                }
+                else{
+                    valid = true;
+                }
+            }
+            catch(InputMismatchException e){
+                System.out.println("Please try again:");
+                scanner.nextLine();
+            }
+        }
+
+        double[] arr = new double[n];
+
+        for(int i = 0;i < n;i++){
+            boolean input = false;
+            while(!input){
+                try{
+                    System.out.println((i+1) + ". element.");
+                    arr[i] = scanner.nextDouble();
+                    input = true;
+                }catch(InputMismatchException e){
+                    System.out.println("Incorrect entry! Please enter a value in numeric format.");
+                    scanner.nextLine();
+                }
+            }
+        }
 
 
+        System.out.println("The arithmetic mean of array is: " + arithmeticMean(arr,n));
+        System.out.println("The geometric mean of array is: " + geometricMean(arr,n));
+        System.out.println("The harmonic mean of array is: " + n / harmonicSum(arr,0));
+        System.out.println("The median of array is: " + median(arr,n));
 
     }
 
+    public static double arithmeticMean(double[] arr, int n){
+        double sum = 0.0;
+        for(int i = 0;i < n;i++)
+            sum += arr[i];
 
+        return sum / n;
+    }
 
+    public static double geometricMean(double[] arr, int n){
+        double product = 1.0;
+        for(int i = 0;i < n;i++){
+            product *= arr[i];
+        }
+        return Math.pow(product, 1.0 /n);
+    }
+
+    public static double median(double[] arr, int n){
+        double median = 0.0;
+        Arrays.sort(arr);
+        if (n % 2 == 1)
+            median = arr[n / 2];
+        else
+            median = (arr[n/2 - 1] + arr[n/2]) / 2.0;
+        return median;
+    }
+
+    public static double harmonicSum(double[] arr, int index){
+        if(index == arr.length) // arrayin sonuysa toplama 0 döndür
+            return 0;
+        if(arr[index] == 0){ //eğer eleman 0 ise 0'a bölüm hatasından kaçınır
+            System.out.println("Warning: 0 value found at array");
+            return harmonicSum(arr,index+1);
+        }
+        return (1.0/arr[index]) + harmonicSum(arr, index +1); //recursive olarak, 1/sayı + kalan şeklinde devam edecek
+    }
 
 
 
