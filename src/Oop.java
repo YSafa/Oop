@@ -1,9 +1,6 @@
 import javax.xml.stream.events.EntityReference;
-import java.util.Arrays;
-import java.util.Scanner;
+import java.util.*;
 import java.time.LocalDate;
-import java.util.InputMismatchException;
-import java.util.Random;
 
 public class Oop
 {
@@ -654,8 +651,7 @@ public class Oop
 
     //  ------------------------- B-2 STEP-BY-STEP EVALUATION OF EXPRESSION  -------------------------
 
-    public static void stepByStepEvaluationOfExpression(Scanner scanner)
-    {
+    public static void stepByStepEvaluationOfExpression(Scanner scanner) {
         clearScreen();  // Screen should be cleared
         // Display Step-by-step Evaluation of Expression submenu
         System.out.println(RED + "===============================================" + RESET);
@@ -665,8 +661,213 @@ public class Oop
 
 
 
+        boolean valid = false;
+        String expr = "";
+        while(!valid){
+            System.out.println("Enter the expression: ");
+            expr = scanner.nextLine();
+            if(checkEmpty(expr) || !checkParanthesis(expr)
+                    || !checkValidChars(expr)
+                    || !checkValidOperators(expr)){
+                System.out.println("Invalid expression. Please try again...");
+            }
+            else{
+                valid = true;
+            }
+
+        }
+
+        expression(expr);
+
+
+
 
     }
+
+    public static boolean checkEmpty(String expr){
+        if(expr.trim().isEmpty())
+            return true;
+        return false;
+    }
+
+    public static boolean checkValidChars(String expr){
+        for(int i = 0;i < expr.length();i++){
+            char c = expr.charAt(i);
+            if(!(Character.isDigit(c) ||
+                    c == 'x' || c == '*' || c == '+' || c == '-' || c == '/' ||
+                    c == ':' || c == '(' || c == ')')){
+                System.out.println("Invalid character found: " + c);
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static boolean checkParanthesis(String expr){
+
+        int balance = 0;
+
+        for(int i = 0;i < expr.length();i++){
+            if (expr.charAt(i) == '(') balance++;
+            else if (expr.charAt(i) == ')') balance--;
+            if (balance < 0) return false;
+        }
+
+        return balance == 0;
+    }
+
+    public static boolean checkValidOperators(String expr){
+
+        String operators = "+*/:-";
+
+        //operatör ile başlama kontrolü '-' hariç
+        if(operators.indexOf(expr.charAt(0)) != -1 && expr.charAt(0) != '-'){
+            System.out.println("Expression cannot start with an operator.");
+            return false;
+        }
+
+        //operatör ile bitme kontrolü
+        if(operators.indexOf(expr.charAt(expr.length() - 1)) != -1){
+            System.out.println("Expression cannot end with an operator.");
+            return false;
+        }
+
+        for(int i = 0;i < expr.length()-1;i++){
+            char c1 = expr.charAt(i);
+            char c2 = expr.charAt(i+1);
+
+            if(operators.indexOf(c1) != -1 && operators.indexOf(c2) != -1){
+                //eğer c2 negatif işaretse ve baştaysa, geçerli olacak
+                if(!(c2 == '-' && (i == 0 || expr.charAt(i-1) == '('))){
+                    System.out.println("Two consecutive operators found: " +c1 + c2);
+                    return false;
+                }
+            }
+        }
+
+        return true;
+
+    }
+
+    public static int expression(String expr){
+
+        expr = expr.replaceAll(" ", "");
+
+        if(!expr.contains("(") && !expr.contains(")"))
+            return evaluateSimple(expr);
+
+        int lastParanthesis = 0;
+        for(int i = 0;i < expr.length();i++){
+            if(expr.charAt(i) == '(')
+                lastParanthesis = i;
+        }
+
+        int paranthesis = lastParanthesis;
+        for(int i = paranthesis;i < expr.length();i++){
+            if(expr.charAt(i) == ')') {
+                paranthesis = i;
+                break;
+            }
+        }
+
+        String inner =  expr.substring(lastParanthesis +1 ,paranthesis);
+        int innerResult = evaluateSimple(inner);
+
+        String newExpr = expr.substring(0, lastParanthesis) + innerResult + expr.substring(paranthesis + 1);
+
+        System.out.println("= " + newExpr);
+
+        // Eğer artık hiç parantez yoksa direkt sonucu hesapla
+        if (!newExpr.contains("(") && !newExpr.contains(")")) {
+            int finalResult = (int) evaluateSimple(newExpr);
+            System.out.println("= " + finalResult);
+            return finalResult;
+        }
+
+        // Aksi halde recursion’a devam et
+        return expression(newExpr);
+
+
+
+    }
+
+    public static int evaluateSimple(String expr){
+        //tüm boşlukları kaldırmak için
+        expr = expr.replaceAll(" ", "");
+
+
+        if (expr.startsWith("(-")) expr = "0" + expr;
+
+        // sayıları ve operatörleri tutacak
+        ArrayList<Integer> numbers = new ArrayList<>();
+        ArrayList<Character> operators = new ArrayList<>();
+
+        String num = "";
+        for(int i = 0;i< expr.length();i++){
+            char c = expr.charAt(i);
+
+            if (Character.isDigit(c)) {
+                num += c;
+            }
+            else if (c == '-' && (i == 0 || expr.charAt(i - 1) == '(' || "+-*/x:".indexOf(expr.charAt(i - 1)) != -1)) {
+                // Negatif sayı durumu
+                num = "-";
+            }
+            else {
+                // Eğer elimizde geçerli bir sayı varsa ekle
+                if (!num.isEmpty() && !num.equals("-")) {
+                    numbers.add(Integer.parseInt(num));
+                    num = "";
+                }
+                // Operatörü ekle
+                operators.add(c);
+            }
+
+        }
+        if (!num.isEmpty() && !num.equals("-")) {
+            numbers.add(Integer.parseInt(num));
+        }
+
+
+        for(int i = 0;i < operators.size();i++){
+            char op = operators.get(i);
+            if(op == '*' || op == '/' || op == 'x' || op == ':'){
+                int a  = numbers.get(i);
+                int b = numbers.get(i+1);
+
+                int result;
+
+                if (op == '*' || op == 'x') {
+                    result = a * b;
+                } else { // op == '/' veya op == ':'
+                    // Sıfıra bölümü engellemek için
+                    if (b == 0) {
+                        System.out.println("Division by zero is not allowed!");
+                        return 0;
+                    }
+                    result = a / b; // Tam sayı bölmesi
+                }
+
+                numbers.set(i, result);
+                numbers.remove(i+1);
+                operators.remove(i);
+                i--;
+            }
+        }
+
+        int result = numbers.get(0);
+        for (int i = 0; i < operators.size(); i++) {
+            char op = operators.get(i);
+            int b = numbers.get(i + 1);
+            if (op == '+')
+                result += b;
+            else if (op == '-')
+                result -= b;
+        }
+        return result;
+
+    }
+
 
 
 
