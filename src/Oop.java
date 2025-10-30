@@ -755,13 +755,13 @@ public class Oop
         boolean valid = false;
         String expr = "";
         while(!valid){
-            System.out.println("Enter the expression: ");
+            System.out.print(CYAN + "Enter the expression: " + RESET);
             expr = scanner.nextLine();
             if(checkEmpty(expr) || !checkParanthesis(expr)
                     || !checkValidChars(expr)
                     || !checkValidOperators(expr)
                     || !checkIfNoNumbers(expr)){
-                System.out.println("Invalid expression. Please try again...");
+                System.out.println(RED + "Invalid expression. Please try again..." + RESET);
             }
             else{
                 valid = true;
@@ -788,7 +788,7 @@ public class Oop
             if(!(Character.isDigit(c) ||
                     c == 'x' || c == '*' || c == '+' || c == '-' || c == '/' ||
                     c == ':' || c == '(' || c == ')')){
-                System.out.println("Invalid character found: " + c);
+                System.out.println(RED + "Invalid character found: " + c + RESET);
                 return false;
             }
         }
@@ -814,13 +814,13 @@ public class Oop
 
         //operatör ile başlama kontrolü '-' hariç
         if(operators.indexOf(expr.charAt(0)) != -1 && expr.charAt(0) != '-'){
-            System.out.println("Expression cannot start with an operator.");
+            System.out.println(RED + "Expression cannot start with an operator." + RESET);
             return false;
         }
 
         //operatör ile bitme kontrolü
         if(operators.indexOf(expr.charAt(expr.length() - 1)) != -1){
-            System.out.println("Expression cannot end with an operator.");
+            System.out.println(RED + "Expression cannot end with an operator." + RESET);
             return false;
         }
 
@@ -830,19 +830,19 @@ public class Oop
 
             if (Character.isDigit(c1) && c2 == '(')
             {
-                System.out.println("Invalid expression: number cannot be directly followed by '(' ");
+                System.out.println(RED + "Invalid expression: number cannot be directly followed by '(' " + RESET);
                 return false;
             }
             if (c1 == ')' && Character.isDigit(c2))
             {
-                System.out.println("Invalid expression: ')' cannot be directly followed by a number");
+                System.out.println(RED + "Invalid expression: ')' cannot be directly followed by a number" + RESET);
                 return false;
             }
 
             if(operators.indexOf(c1) != -1 && operators.indexOf(c2) != -1){
                 //eğer c2 negatif işaretse ve baştaysa, geçerli olacak
                 if(!(c2 == '-' && (i == 0 || expr.charAt(i-1) == '('))){
-                    System.out.println("Two consecutive operators found: " +c1 + c2);
+                    System.out.println(RED + "Two consecutive operators found: " +c1 + c2 + RESET);
                     return false;
                 }
             }
@@ -899,7 +899,7 @@ public class Oop
         // Eğer artık hiç parantez yoksa direkt sonucu hesapla
         if (!newExpr.contains("(") && !newExpr.contains(")")) {
             int finalResult = (int) evaluateSimple(newExpr);
-            System.out.println("= " + finalResult);
+            System.out.println(YELLOW + "= " + finalResult + RESET);
             return finalResult;
         }
 
@@ -961,7 +961,7 @@ public class Oop
                 } else { // op == '/' veya op == ':'
                     // Sıfıra bölümü engellemek için
                     if (b == 0) {
-                        System.out.println("Division by zero is not allowed!");
+                        System.out.println(RED + "Division by zero is not allowed!" + RESET);
                         return 0;
                     }
                     result = a / b; // Tam sayı bölmesi
