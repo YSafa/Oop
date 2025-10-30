@@ -970,7 +970,12 @@ public class Oop
      */
     public static boolean checkValidOperators(String expr){
 
-        String operators = "+*/:-";
+        String operators = "+:-x";
+
+        if (expr.contains("*") || expr.contains("/")) {
+            System.out.println(RED + "Invalid operator used. Use 'x' for multiplication and ':' for division instead of * and /." + RESET);
+            return false;
+        }
 
         //operatör ile başlama kontrolü '-' hariç
         if(operators.indexOf(expr.charAt(0)) != -1 && expr.charAt(0) != '-'){
