@@ -5,18 +5,42 @@ import java.util.InputMismatchException;
 import java.util.Arrays;
 import java.util.Random;
 
+/**
+ * This class runs a menu-based console application.
+ * It provides different options for various school levels,
+ * including games and calculation tools.
+ *
+ * @author Dıldar Baştuğ
+ * @author Doğukan Furat
+ * @author Sena Coşkun
+ * @author Yiğit Safa Yıldırım
+ * @version 2025-10-30
+ */
 public class Oop
 {
     // ANSI color codes
+    /** Resets the console color. */
     public static final String RESET = "\033[0m";
+    /** Sets the console color to yellow. */
     public static final String YELLOW = "\033[33m";
+    /** Sets the console color to red. */
     public static final String RED = "\033[31m";
+    /** Sets the console color to purple. */
     public static final String PURPLE = "\033[35m";
+    /** Sets the console color to blue. */
     public static final String BLUE = "\033[34m";
+    /** Sets the console color to green. */
     public static final String GREEN = "\033[32m";
+    /** Sets the console color to cyan. */
     public static final String CYAN = "\033[36m";
 
 
+    /**
+     * The main entry point for the application.
+     * It shows the welcome message and runs the main menu loop.
+     *
+     * @param args Command line arguments (not used in this application).
+     */
     public static void main(String[] args)
     {
         // Main application loop
@@ -25,7 +49,7 @@ public class Oop
         while(true)
         {
             displayMainMenu();
-            String choice = scanner.nextLine().toUpperCase(); //Bunu bizim yapmamız da gerekebilir fonksiyon kullanımında nasıl sınır var bakarız
+            String choice = scanner.nextLine().toUpperCase();
             switch (choice)
             {
                 case "A":
@@ -51,13 +75,24 @@ public class Oop
         }
     }
 
+
+    /**
+     * Clears the console screen.
+     * It uses ANSI escape codes.
+     */
     public static void clearScreen()
     {
         System.out.print("\033[H\033[2J");
         System.out.flush();
     }
 
-    //Displays a colorful ASCII art welcome message.
+
+    /**
+     * Shows a welcome message with ASCII art and team member names.
+     * It waits for the user to press Enter.
+     *
+     * @param scanner The Scanner object to read the user's "Enter" press.
+     */
     public static void displayWelcomeMessage(Scanner scanner)
     {
         clearScreen();
@@ -86,7 +121,10 @@ public class Oop
     }
 
 
-    //Displays the main menu with options for different school levels.
+    /**
+     * Shows the main menu options.
+     * Options include different school levels and an option to quit.
+     */
     public static void displayMainMenu()
     {
         clearScreen();
@@ -104,6 +142,13 @@ public class Oop
 
     //  -------------------------  A PRIMARY SCHOOL  -------------------------
 
+
+    /**
+     * Shows the menu for Primary School options.
+     * This menu loops until the user chooses to return to the main menu.
+     *
+     * @param scanner The Scanner object for user input.
+     */
     public static void primarySchoolMenu(Scanner scanner)
     {
         while (true)
@@ -141,6 +186,10 @@ public class Oop
 
     //  ------------------------- A-1 AGE AND ZODIAC  -------------------------
 
+
+    /**
+     * Shows the header for the "Age and Zodiac Sign" feature.
+     */
     public static void ageAndZodiacMenu()
     {
         clearScreen();  // Screen should be cleared
@@ -151,7 +200,14 @@ public class Oop
         System.out.println(BLUE + "-----------------------------------------------" + RESET);
     }
 
-    // Method to determine age and zodiac sign
+
+    /**
+     * Asks the user for their birth date (year, month, day).
+     * It validates the input to make sure it is a real date.
+     * Then, it calls methods to calculate age and find the zodiac sign.
+     *
+     * @param scanner The Scanner object for user input.
+     */
     public static void ageAndZodiacDetection(Scanner scanner)
     {
         // yaş hesaplama ve int yerine başka bir şey girilmesi durumunda çökmemesi için kod yazılmalı (try catch)
@@ -310,7 +366,16 @@ public class Oop
         determineZodiacSign(day, month);
     }
 
-    // Method to determine age
+
+    /**
+     * Calculates the user's exact age in years, months, and days.
+     * It compares the birth date to the current date.
+     * It prints the result to the console.
+     *
+     * @param day   The user's day of birth.
+     * @param month The user's month of birth.
+     * @param year  The user's year of birth.
+     */
     public static void ageCalculator(int day, int month, int year)
     {
         LocalDate today = LocalDate.now();
@@ -350,7 +415,14 @@ public class Oop
         System.out.println(RED + "===============================================" + RESET);
     }
 
-    // Method to determine the zodiac sign
+
+    /**
+     * Finds the user's zodiac sign based on their birth day and month.
+     * It prints the zodiac sign to the console.
+     *
+     * @param day   The user's day of birth.
+     * @param month The user's month of birth.
+     */
     public static void determineZodiacSign(int day, int month)
     {
         String zodiacSign = "";
@@ -387,6 +459,13 @@ public class Oop
 
     //  ------------------------- A-2 REVERSE WORDS  -------------------------
 
+    /**
+     * Asks the user for a line of text.
+     * It prints the text with the letters of each word reversed.
+     * It calls the recursive {@link #reverseWord(String, boolean)} method.
+     *
+     * @param scanner The Scanner object for user input.
+     */
     public static void reverseWords(Scanner scanner)
     {
         clearScreen();  // Screen should be cleared
@@ -402,6 +481,15 @@ public class Oop
 
     }
 
+
+    /**
+     * Reverses the letters in words, but keeps punctuation in place.
+     * This is a recursive helper method.
+     *
+     * @param str    The string to reverse.
+     * @param isWord true if the current part is a word, false if it is punctuation/space.
+     * @return The reversed string.
+     */
     public static String reverseWord(String str, boolean isWord){
 
         if(str.length() <= 1) //kelime değilse direkt döndürecek
@@ -436,6 +524,13 @@ public class Oop
 
     }
 
+
+    /**
+     * Checks if a character is a standard letter or a special Turkish letter.
+     *
+     * @param c The character to check.
+     * @return true if the character is a letter (including Turkish), false otherwise.
+     */
     public static boolean isTurkishLetter(char c) {
         return Character.isLetter(c) ||
                 "çğıöşüÇĞİÖŞÜ".indexOf(c) >= 0;
@@ -444,6 +539,12 @@ public class Oop
 
     //  ------------------------- B SECONDARY SCHOOL  -------------------------
 
+    /**
+     * Shows the menu for Secondary School options.
+     * This menu loops until the user chooses to return to the main menu.
+     *
+     * @param scanner The Scanner object for user input.
+     */
     public static void secondarySchoolMenu(Scanner scanner)
     {
         while (true)
@@ -481,6 +582,14 @@ public class Oop
 
     //  ------------------------- B-1 PRIME NUMBERS  -------------------------
 
+    /**
+     * Calculates prime numbers up to a number (N) given by the user.
+     * N must be 12 or greater.
+     * It runs three different "sieve" algorithms: Eratosthenes, Sundaram, and Atkin.
+     * It prints the results and execution time for each algorithm.
+     *
+     * @param input The Scanner object for user input.
+     */
     public static void primeNumbers(Scanner input)
     {
         clearScreen();  // Screen should be cleared
@@ -526,6 +635,13 @@ public class Oop
 
     }
 
+
+    /**
+     * Finds all prime numbers up to 'n' using the Sieve of Eratosthenes algorithm.
+     * Prints the first 3 primes, the last 2 primes, and the execution time.
+     *
+     * @param n The upper limit (inclusive) to search for primes.
+     */
     public static void sieveEratosthenes(int n)
     {
 
@@ -589,6 +705,12 @@ public class Oop
     }
 
 
+    /**
+     * Finds all prime numbers up to 'n' using the Sieve of Sundaram algorithm.
+     * Prints the first 3 primes, the last 2 primes, and the execution time.
+     *
+     * @param n The upper limit (inclusive) to search for primes.
+     */
     public static void sieveSundaram(int n)
     {
         // Sieve of Sundaram ALGORITMASI //
@@ -647,6 +769,13 @@ public class Oop
         System.out.println();
     }
 
+
+    /**
+     * Finds all prime numbers up to 'n' using the Sieve of Atkin algorithm.
+     * Prints the first 3 primes, the last 2 primes, and the execution time.
+     *
+     * @param n The upper limit (inclusive) to search for primes.
+     */
     public static void sieveAtkin(int n)
     {
         long startTime = System.nanoTime();
@@ -735,13 +864,15 @@ public class Oop
 
     }
 
-
-
-
-
-
     //  ------------------------- B-2 STEP-BY-STEP EVALUATION OF EXPRESSION  -------------------------
 
+    /**
+     * Asks the user for a mathematical expression (e.g., "(10 + 5) * 2").
+     * It validates the expression using several helper methods.
+     * Then, it shows the step-by-step evaluation of the expression.
+     *
+     * @param scanner The Scanner object for user input.
+     */
     public static void stepByStepEvaluationOfExpression(Scanner scanner) {
         clearScreen();  // Screen should be cleared
         // Display Step-by-step Evaluation of Expression submenu
@@ -771,17 +902,29 @@ public class Oop
 
         expression(expr);
 
-
-
-
     }
 
+
+    /**
+     * Checks if the expression string is empty or just whitespace.
+     *
+     * @param expr The mathematical expression string.
+     * @return true if the string is empty, false otherwise.
+     */
     public static boolean checkEmpty(String expr){
         if(expr.trim().isEmpty())
             return true;
         return false;
     }
 
+
+    /**
+     * Checks if the expression contains any invalid characters.
+     * Valid characters are digits, +, -, *, /, x, :, (, and ).
+     *
+     * @param expr The mathematical expression string.
+     * @return true if all characters are valid, false otherwise.
+     */
     public static boolean checkValidChars(String expr){
         for(int i = 0;i < expr.length();i++){
             char c = expr.charAt(i);
@@ -795,6 +938,14 @@ public class Oop
         return true;
     }
 
+
+    /**
+     * Checks if the parentheses ( ) in the expression are balanced.
+     * For example, "(1+2)" is balanced, but "(1+2" or "1+2)" is not.
+     *
+     * @param expr The mathematical expression string.
+     * @return true if parentheses are balanced, false otherwise.
+     */
     public static boolean checkParanthesis(String expr){
 
         int balance = 0;
@@ -808,6 +959,15 @@ public class Oop
         return balance == 0;
     }
 
+
+    /**
+     * Checks for invalid operator or number usage.
+     * Examples: starting with "*", ending with "+", two operators in a row like "++",
+     * or invalid structures like "5(" or ")2".
+     *
+     * @param expr The mathematical expression string.
+     * @return true if usage is valid, false otherwise.
+     */
     public static boolean checkValidOperators(String expr){
 
         String operators = "+*/:-";
@@ -849,8 +1009,15 @@ public class Oop
         }
 
         return true;
-
     }
+
+
+    /**
+     * Checks if the expression contains at least one number.
+     *
+     * @param expr The mathematical expression string.
+     * @return true if a number (digit) is found, false otherwise.
+     */
     public static boolean checkIfNoNumbers(String expr){
         for(char c : expr.toCharArray()){
             if (Character.isDigit(c))
@@ -864,6 +1031,15 @@ public class Oop
         return false;
     }
 
+
+    /**
+     * Evaluates a mathematical expression, showing steps for parentheses.
+     * This is a recursive method. It finds the innermost parentheses,
+     * evaluates them using {@link #evaluateSimple(String)}, and repeats.
+     *
+     * @param expr The mathematical expression string.
+     * @return The final result of the expression.
+     */
     public static int expression(String expr){
 
         expr = expr.replaceAll(" ", "");
@@ -906,10 +1082,16 @@ public class Oop
         // Aksi halde recursion’a devam et
         return expression(newExpr);
 
-
-
     }
 
+
+    /**
+     * Evaluates a simple expression that does not have parentheses.
+     * It respects operator precedence (multiplication/division first, then addition/subtraction).
+     *
+     * @param expr The simple expression string (e.g., "5+2*10").
+     * @return The result of the simple expression.
+     */
     public static int evaluateSimple(String expr){
         //tüm boşlukları kaldırmak için
         expr = expr.replaceAll(" ", "");
@@ -988,16 +1170,14 @@ public class Oop
     }
 
 
-
-
-
-
-
-
-
-
     //  ------------------------- C HIGH SCHOOL  -------------------------
 
+    /**
+     * Shows the menu for High School options.
+     * This menu loops until the user chooses to return to the main menu.
+     *
+     * @param scanner The Scanner object for user input.
+     */
     public static void highSchoolMenu(Scanner scanner)
     {
         clearScreen(); // Screen should be cleared
@@ -1037,6 +1217,13 @@ public class Oop
 
     //  ------------------------- C-1 STATISTICAL INFORMATION ABOUT AN ARRAY  -------------------------
 
+    /**
+     * Asks the user for the size of an array and its (double) elements.
+     * It calculates and prints the arithmetic mean, geometric mean,
+     * harmonic mean, and median of the array.
+     *
+     * @param scanner The Scanner object for user input.
+     */
     public static void statisticalInformationAboutAnArray(Scanner scanner)
     {
         clearScreen();  // Screen should be cleared
@@ -1091,6 +1278,14 @@ public class Oop
         scanner.nextLine();
     }
 
+
+    /**
+     * Calculates the arithmetic mean (average) of an array.
+     *
+     * @param arr The array of numbers.
+     * @param n   The size of the array.
+     * @return The arithmetic mean.
+     */
     public static double arithmeticMean(double[] arr, int n){
         double sum = 0.0;
         for(int i = 0;i < n;i++)
@@ -1099,6 +1294,14 @@ public class Oop
         return sum / n;
     }
 
+
+    /**
+     * Calculates the geometric mean of an array.
+     *
+     * @param arr The array of numbers.
+     * @param n   The size of the array.
+     * @return The geometric mean.
+     */
     public static double geometricMean(double[] arr, int n){
         double product = 1.0;
         for(int i = 0;i < n;i++){
@@ -1107,6 +1310,15 @@ public class Oop
         return Math.pow(product, 1.0 /n);
     }
 
+
+    /**
+     * Calculates the median (middle value) of an array.
+     * This method sorts the array.
+     *
+     * @param arr The array of numbers.
+     * @param n   The size of the array.
+     * @return The median value.
+     */
     public static double median(double[] arr, int n){
         double median = 0.0;
         Arrays.sort(arr);
@@ -1117,6 +1329,16 @@ public class Oop
         return median;
     }
 
+
+    /**
+     * Recursively calculates the sum needed for the harmonic mean.
+     * The harmonic mean is N / ( (1/x1) + (1/x2) + ... ).
+     * This method calculates the denominator part.
+     *
+     * @param arr   The array of numbers.
+     * @param index The current index for the recursion.
+     * @return The sum of (1 / element) for each element.
+     */
     public static double harmonicSum(double[] arr, int index){
         if(index == arr.length) // arrayin sonuysa toplama 0 döndür
             return 0;
@@ -1128,10 +1350,16 @@ public class Oop
     }
 
 
-
-
     //  ------------------------- C-2 DISTANCE BETWEEN TWO ARRAYS  -------------------------
 
+    /**
+     * Asks the user for two arrays (vectors) of the same size.
+     * The elements must be integers from 0 to 9.
+     * It calculates and prints the Manhattan distance, Euclidean distance,
+     * and Cosine Similarity between the two arrays.
+     *
+     * @param scanner The Scanner object for user input.
+     */
     public static void distanceBetweenTwoArrays(Scanner scanner)
     {
         clearScreen();  // Screen should be cleared
@@ -1211,6 +1439,16 @@ public class Oop
     scanner.nextLine();
 }
 
+
+    /**
+     * A helper method to get a valid integer (0-9) from the user for an array.
+     * It will keep asking until the input is correct.
+     *
+     * @param scanner   The Scanner object for user input.
+     * @param index     The current array index (e.g., 0, 1, 2...).
+     * @param arrayName The name of the array ("A" or "B") to show in the prompt.
+     * @return A valid integer between 0 and 9.
+     */
 private static int getValidElement(Scanner scanner, int index, String arrayName)
 {
     int value;
@@ -1229,50 +1467,17 @@ private static int getValidElement(Scanner scanner, int index, String arrayName)
     }
 }
 
-    
-
-
-
-
-
-
-
     //  ------------------------- D UNIVERSITY  -------------------------
-
-    /*public static void universityMenu(Scanner scanner)
-    {
-        clearScreen(); // Screen should be cleared
-        while(true)
-        {
-            clearScreen();  // Screen should be cleaned
-            // Display University submenu
-            System.out.println(RED + "===============================================" + RESET);
-            System.out.println(YELLOW + "                University Menu" + RESET);
-            System.out.println(RED + "===============================================" + RESET);
-            System.out.println(PURPLE + "1. Connect Four");
-            System.out.println("2. Return to Main Menu" + RESET);
-            System.out.println(BLUE + "-----------------------------------------------" + RESET);
-            System.out.print(CYAN + "Please select an operation: " + RESET);
-            String choice = scanner.nextLine();
-            switch (choice)
-            {
-                case "1":
-                    connectFour(scanner);
-                    break;
-                case "2":
-                    return; // Go back to the main menu
-                default:
-                    System.out.println(RED + "Invalid option. Please try again." + RESET);
-            }
-            // After an operation, allow the user to repeat the selection or return
-            System.out.println(RED + "Press Enter to continue..." + RESET);
-            scanner.nextLine();
-        }
-    }*/
-
 
     //  ------------------------- D-1 CONNECT FOUR  -------------------------
 
+    /**
+     * Manages the Connect Four game.
+     * It asks for the board size and the game mode (Player vs Player or Player vs Computer).
+     * Then, it starts the chosen game.
+     *
+     * @param scanner The Scanner object for user input.
+     */
     public static void connectFour(Scanner scanner)
     {
         int sizeOfBoard = boardSize(scanner);
@@ -1301,7 +1506,13 @@ private static int getValidElement(Scanner scanner, int index, String arrayName)
 
     }
 
-    // Selecting the board size
+
+    /**
+     * Asks the user to select the Connect Four board size.
+     *
+     * @param scanner The Scanner object for user input.
+     * @return An integer representing the user's choice (1 for 5x4, 2 for 6x5, 3 for 7x6, or 4 to return).
+     */
     public static int boardSize(Scanner scanner)
     {
         while(true)
@@ -1341,7 +1552,13 @@ private static int getValidElement(Scanner scanner, int index, String arrayName)
         }
     }
 
-    // Choose the game mode
+
+    /**
+     * Asks the user to select the game mode.
+     *
+     * @param scanner The Scanner object for user input.
+     * @return An integer representing the user's choice (1 for PvP, 2 for PvC, or 3 to return).
+     */
     public static int gameMode(Scanner scanner)
     {
         while(true)
@@ -1373,7 +1590,15 @@ private static int getValidElement(Scanner scanner, int index, String arrayName)
         }
     }
 
-    // Prints board
+
+    /**
+     * Prints the Connect Four game board to the console.
+     * It uses colors for 'X' and 'O' pieces.
+     *
+     * @param board The game board, as a 2D char array.
+     * @param rows  The number of rows in the board.
+     * @param cols  The number of columns in the board.
+     */
     public static void printBoard(char[][] board, int rows, int cols)
     {
         clearScreen();
@@ -1426,6 +1651,15 @@ private static int getValidElement(Scanner scanner, int index, String arrayName)
     }
 
 
+    /**
+     * Manages the game loop for Player vs Player mode.
+     * It alternates turns between 'X' and 'O' until someone wins or there is a draw.
+     *
+     * @param scanner The Scanner object for user input.
+     * @param board   The game board, as a 2D char array.
+     * @param rows    The number of rows in the board.
+     * @param cols    The number of columns in the board.
+     */
     public static void playPvP(Scanner scanner, char[][] board, int rows, int cols)
     {
         char currentPlayer = 'X';
@@ -1504,6 +1738,15 @@ private static int getValidElement(Scanner scanner, int index, String arrayName)
     }
 
 
+    /**
+     * Manages the game loop for Player vs Computer (AI) mode.
+     * The user chooses to be 'X' or 'O'. The computer plays random valid moves.
+     *
+     * @param scanner The Scanner object for user input.
+     * @param board   The game board, as a 2D char array.
+     * @param rows    The number of rows in the board.
+     * @param cols    The number of columns in the board.
+     */
     public static void playPvC(Scanner scanner, char[][] board, int rows, int cols) // Player vs computer
     {
         Random random = new Random();
@@ -1656,6 +1899,16 @@ private static int getValidElement(Scanner scanner, int index, String arrayName)
     }
 
 
+    /**
+     * Animates a disc falling into the chosen column.
+     * It does this by placing the piece, printing the board, sleeping,
+     * and then removing the piece, moving down one row.
+     *
+     * @param board  The game board, as a 2D char array.
+     * @param rows   The number of rows in the board.
+     * @param col    The column where the disc is being dropped.
+     * @param player The player's symbol ('X' or 'O').
+     */
     public static void dropDiscWithAnimation(char[][] board, int rows, int col, char player)
     {
         int dropRow = -1;
@@ -1687,7 +1940,15 @@ private static int getValidElement(Scanner scanner, int index, String arrayName)
         board[dropRow][col] = player;
     }
 
-    // Cheks the winner
+
+    /**
+     * Checks if the specified player has won the game.
+     * A win is 4 in a row, column, or diagonal.
+     *
+     * @param board  The game board, as a 2D char array.
+     * @param player The player's symbol ('X' or 'O') to check for.
+     * @return true if the player has won, false otherwise.
+     */
     public static boolean checkWinner(char[][] board, char player)
     {
         int rows = board.length;
@@ -1740,7 +2001,13 @@ private static int getValidElement(Scanner scanner, int index, String arrayName)
         return false;
     }
 
-    // Boards is full or not
+    /**
+     * Checks if the game board is full (which results in a draw).
+     * It only needs to check the top row.
+     *
+     * @param board The game board, as a 2D char array.
+     * @return true if the board is full, false otherwise.
+     */
     public static boolean isBoardFull(char[][] board)
     {
         for (int c = 0; c < board[0].length; c++)
