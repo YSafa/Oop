@@ -17,8 +17,8 @@ public class Oop
     public static void main(String[] args)
     {
         // Main application loop
-        displayWelcomeMessage();
         Scanner scanner = new Scanner(System.in);
+        displayWelcomeMessage(scanner);
         while(true)
         {
             displayMainMenu();
@@ -35,13 +35,15 @@ public class Oop
                     highSchoolMenu(scanner);
                     break;
                 case "D":
-                    universityMenu(scanner);
+                    connectFour(scanner);
                     break;
                 case "E":
                     System.out.println("Terminating the application. Goodbye!");
                     return;
                 default:
                     System.out.println(RED + "Invalid option. Please try again." + RESET);
+                    System.out.println(RED + "Press Enter to continue..." + RESET);
+                    scanner.nextLine();
             }
         }
     }
@@ -53,8 +55,9 @@ public class Oop
     }
 
     //Displays a colorful ASCII art welcome message.
-    public static void displayWelcomeMessage()
+    public static void displayWelcomeMessage(Scanner scanner)
     {
+        clearScreen();
         System.out.println("\n" + RED + "                 /           /");
         System.out.println(RED + "                /' .,,,,  ./");
         System.out.println(GREEN + "               /';'     ,/");
@@ -72,6 +75,11 @@ public class Oop
         System.out.println(RED + "               '       (");
         System.out.println(RED + "              :");
         System.out.println(RESET);
+        System.out.println(BLUE + "-------------------------------------------------------------------" + RESET);
+        System.out.println(PURPLE + "Dıldar Baştuğ\tDoğukan Furat\tSena Coşkun\tYiğit Safa Yıldırım" + RESET);
+        System.out.println(BLUE + "-------------------------------------------------------------------" + RESET);
+        System.out.println(CYAN + "Press Enter to continue..." + RESET);
+        scanner.nextLine();
     }
 
 
@@ -130,6 +138,16 @@ public class Oop
 
     //  ------------------------- A-1 AGE AND ZODIAC  -------------------------
 
+    public static void ageAndZodiacMenu()
+    {
+        clearScreen();  // Screen should be cleared
+        // Display Age and Zodiac submenu
+        System.out.println(RED + "===============================================" + RESET);
+        System.out.println(YELLOW + "         Age and Zodiac Sign Detection ");
+        System.out.println(RED + "===============================================" + RESET);
+        System.out.println(BLUE + "-----------------------------------------------" + RESET);
+    }
+
     // Method to determine age and zodiac sign
     public static void ageAndZodiacDetection(Scanner scanner)
     {
@@ -142,32 +160,49 @@ public class Oop
         boolean validDayInput = false;
         boolean leapYear = false;
 
-        clearScreen();  // Screen should be cleared
-        // Display Age and Zodiac submenu
-        System.out.println(RED + "===============================================" + RESET);
-        System.out.println(YELLOW + "         Age and Zodiac Sign Detection ");
-        System.out.println(RED + "===============================================" + RESET);
+        LocalDate today = LocalDate.now();
+        int currentYear = today.getYear();
+        int currentMonth = today.getMonthValue();
+        int currentDay = today.getDayOfMonth();
+
 
 
         while(!validYearInput)
         {
-            System.out.println(BLUE + "-----------------------------------------------" + RESET);
-            System.out.print(CYAN + "Please enter the year of your birthday (e. g., 2004): " + RESET);
+            ageAndZodiacMenu();
+            System.out.println(CYAN + "Please enter the year of your birthday (e. g., 2004): " + RESET);
+
+            String input = scanner.nextLine().trim();
+            if (input.isEmpty())
+            {
+                System.err.println(RED + "Error! You must enter a value. Please try again." + RESET);
+                System.out.println(RED + "Press Enter to continue..." + RESET);
+                scanner.nextLine();
+                continue;
+            }
+            if (input.equals("-0"))
+            {
+                System.err.println(RED + "There is noting like -0. " + RESET);
+                System.out.println(RED + "Press Enter to continue..." + RESET);
+                scanner.nextLine();
+                continue;
+            }
             try // Attempt to get the numerical input.
             {
-                year = scanner.nextInt();
-                if (year < 0 || year > 2025) // Is the numerical value in the correct range?
+                year = Integer.parseInt(input);
+                if (year < 0 || year > 2025)
+                { // Is the numerical value in the correct range?
                     System.err.println(RED + "Your birth year must be between 0 and 2025. " + RESET);  // Numerical but out of valid range, print error and loop continues.
-                else if(year == -0)
-                {
-                    System.err.println(RED + "There is noting like -0. " + RESET); // buna minik düzeltme yapcam
+                    System.out.println(RED + "Press Enter to continue..." + RESET);
+                    scanner.nextLine();
                 }
                 else    // Correct input style and it can be a year so continue
                     validYearInput = true;
-            }catch (InputMismatchException e) // User entered text instead of an int.
+            }catch (NumberFormatException e) // User entered text instead of an int.
             {
                 System.err.println(RED + "Error! You did not enter a valid integer. Please enter only the year number." + RESET);
-                scanner.next();         // If this is not done, it will result in an infinite loop.
+                scanner.nextLine();         // If this is not done, it will result in an infinite loop.
+                continue;
             }
         }
         // System.out.println("\nYour birth year has been successfully recorded");     // Exited the loop, valid year is stored. (Gerek var mı idk)
@@ -177,30 +212,67 @@ public class Oop
         // ay doğru mu onu kontrol ediyor
         while(!validMonthInput)
         {
-            System.out.println(BLUE + "-----------------------------------------------" + RESET);
-            System.out.print(CYAN + "Please enter the month of your birthday (e. g., 9): " + RESET);
+            ageAndZodiacMenu();
+            System.out.println(CYAN + "Please enter the month of your birthday (e. g., 9): " + RESET);
+
+            String input = scanner.nextLine().trim();
+
+            if (input.isEmpty())
+            {
+                System.err.println(RED + "Error! You must enter a value. Please try again." + RESET);
+                System.out.println(RED + "Press Enter to continue..." + RESET);
+                scanner.nextLine();
+                continue;
+            }
+
             try // Attempt to get the numerical input.
             {
-                month = scanner.nextInt();
+                month = Integer.parseInt(input);
                 if (month < 1 || month > 12) // Is the numerical value in the correct range?
+                {
                     System.err.println(RED + "Your birth month must be between 1 and 12. " + RESET);    // Numerical but out of valid range, print error and loop continues.
+                    System.out.println(RED + "Press Enter to continue..." + RESET);
+                    scanner.nextLine();
+                    continue;
+                }
                 else    // Correct input style and it can be a month so continue
+                {
                     validMonthInput = true;
-            }catch (InputMismatchException e) // User entered text instead of an int.
+                }
+                if(year == currentYear && month > currentMonth)
+                {
+                    System.err.println(RED + "You can't born in the future. " + RESET);
+                    validMonthInput = false;
+                    System.out.println(RED + "Press Enter to continue..." + RESET);
+                    scanner.nextLine();
+                    continue;
+                }
+            }catch (NumberFormatException e) // User entered text instead of an int.
             {
                 System.err.println(RED + "Error! You did not enter a valid integer. Please enter only the month number." + RESET);
-                scanner.next();         // If this is not done, it will result in an infinite loop.
+                System.out.println(RED + "Press Enter to continue..." + RESET);
+                scanner.nextLine();         // If this is not done, it will result in an infinite loop.
             }
         }
 
         // gün doğru mu onu kontrol ediyor
         while(!validDayInput)
         {
-            System.out.println(BLUE + "-----------------------------------------------" + RESET);
-            System.out.print(CYAN + "Please enter the day of your birthday (e. g., 21): " + RESET);
+            ageAndZodiacMenu();
+            System.out.println(CYAN + "Please enter the day of your birthday (e. g., 21): " + RESET);
+
+            String input = scanner.nextLine().trim();
+
+            if (input.isEmpty())
+            {
+                System.err.println(RED + "Error! You must enter a value. Please try again." + RESET);
+                System.out.println(RED + "Press Enter to continue..." + RESET);
+                scanner.nextLine();
+                continue;
+            }
             try // Attempt to get the numerical input.
             {
-                day = scanner.nextInt();
+                day = Integer.parseInt(input);
                 if((month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12) && (day > 0 && day < 32))
                     validDayInput = true;   // Correct input style and it can be a day so continue
                 else if((month == 4 || month == 6 || month == 9 || month == 11) && (day > 0 && day < 31))
@@ -210,18 +282,29 @@ public class Oop
                 else if(month == 2 && leapYear && (day > 0 && day < 30))
                     validDayInput = true;   // Correct input style and it can be a day so continue
                 else
+                {
                     System.err.println(RED + "Your birth day must be in valid day. " + RESET);    // Numerical but out of valid range, print error and loop continues.
-            }catch (InputMismatchException e) // User entered text instead of an int.
+                    System.out.println(RED + "Press Enter to continue..." + RESET);
+                    scanner.nextLine();
+                    continue;
+                }
+                if(year == currentYear && month == currentMonth && day > currentDay)
+                {
+                    System.err.println(RED + "You can't born in the future. " + RESET);
+                    validDayInput = false;
+                    System.out.println(RED + "Press Enter to continue..." + RESET);
+                    scanner.nextLine();
+                    continue;
+                }
+            }catch (NumberFormatException e) // User entered text instead of an int.
             {
                 System.err.println(RED + "Error! You did not enter a valid integer. Please enter only the day number." + RESET);
-                scanner.next();         // If this is not done, it will result in an infinite loop.
+                System.out.println(RED + "Press Enter to continue..." + RESET);
+                scanner.nextLine();         // If this is not done, it will result in an infinite loop.
             }
         }
         ageCalculator(day, month, year);
         determineZodiacSign(day, month);
-
-
-        scanner.nextLine();
     }
 
     // Method to determine age
@@ -1120,7 +1203,7 @@ private static int getValidElement(Scanner scanner, int index, String arrayName)
 
     //  ------------------------- D UNIVERSITY  -------------------------
 
-    public static void universityMenu(Scanner scanner)
+    /*public static void universityMenu(Scanner scanner)
     {
         clearScreen(); // Screen should be cleared
         while(true)
@@ -1149,7 +1232,7 @@ private static int getValidElement(Scanner scanner, int index, String arrayName)
             System.out.println(RED + "Press Enter to continue..." + RESET);
             scanner.nextLine();
         }
-    }
+    }*/
 
 
     //  ------------------------- D-1 CONNECT FOUR  -------------------------
@@ -1189,6 +1272,8 @@ private static int getValidElement(Scanner scanner, int index, String arrayName)
         {
             clearScreen();  // Screeen should be cleaned
             // Display connect four subsubmenu / board selection
+            System.out.println(RED + "===============================================" + RESET);
+            System.out.println(YELLOW + "                University Menu" + RESET);
             System.out.println(RED + "===============================================" + RESET);
             System.out.println(YELLOW  + "                 Connect Four " + RESET);
             System.out.println(RED + "===============================================" + RESET);
@@ -1271,7 +1356,7 @@ private static int getValidElement(Scanner scanner, int index, String arrayName)
 
         for (int r = 0; r < rows; r++)
         {
-            System.out.print((r + 1) + " │");
+            System.out.print("  │"); // (r + 1) +
             for (int c = 0; c < cols; c++)
             {
                 char symbol = board[r][c];
@@ -1313,7 +1398,7 @@ private static int getValidElement(Scanner scanner, int index, String arrayName)
         while (true)
         {
             System.out.println(BLUE + "-----------------------------------------------" + RESET);
-            System.out.println(CYAN + "Player " + currentPlayer + ", choose a column (1-" + cols + "), or 0 to quit:" + RESET);
+            System.out.print(CYAN + "Player " + currentPlayer + ", choose a column (1-" + cols + "), or 0 to quit: " + RESET);
             String input = scanner.nextLine();
 
             if (input.equals("0"))
@@ -1328,18 +1413,30 @@ private static int getValidElement(Scanner scanner, int index, String arrayName)
                 col = Integer.parseInt(input) - 1;
             } catch (NumberFormatException e) {
                 System.out.println(RED + "Invalid input. Please enter a number." + RESET);
+                System.out.println(RED + "Press Enter to continue..." + RESET);
+                scanner.nextLine();
+                clearScreen();
+                printBoard(board, rows, cols);
                 continue;
             }
 
             if (col < 0 || col >= cols)
             {
                 System.out.println(RED + "Column out of range. Try again." + RESET);
+                System.out.println(RED + "Press Enter to continue..." + RESET);
+                scanner.nextLine();
+                clearScreen();
+                printBoard(board, rows, cols);
                 continue;
             }
 
             if (board[0][col] != ' ')
             {
                 System.out.println(RED + "That column is full. Try another one." + RESET);
+                System.out.println(RED + "Press Enter to continue..." + RESET);
+                scanner.nextLine();
+                clearScreen();
+                printBoard(board, rows, cols);
                 continue;
             }
 
@@ -1351,6 +1448,8 @@ private static int getValidElement(Scanner scanner, int index, String arrayName)
             if (checkWinner(board, currentPlayer))
             {
                 System.out.println(GREEN + "Player " + currentPlayer + " wins! 🎉" + RESET);
+                System.out.println(RED + "Press Enter to continue..." + RESET);
+                scanner.nextLine();
                 break;
             }
 
@@ -1358,6 +1457,8 @@ private static int getValidElement(Scanner scanner, int index, String arrayName)
             if (isBoardFull(board))
             {
                 System.out.println(YELLOW + "It's a draw!" + RESET);
+                System.out.println(RED + "Press Enter to continue..." + RESET);
+                scanner.nextLine();
                 break;
             }
 
@@ -1414,7 +1515,7 @@ private static int getValidElement(Scanner scanner, int index, String arrayName)
                 // Player turn
                 int col;
                 System.out.println(BLUE + "-----------------------------------------------" + RESET);
-                System.out.println(CYAN + "Your turn (" + playerSymbol + "). Choose a column (1-" + cols + "), or 0 to quit:" + RESET);
+                System.out.println(CYAN + "Your turn (" + playerSymbol + "). Choose a column (1-" + cols + "), or 0 to quit: " + RESET);
                 String input = scanner.nextLine();
 
                 if (input.equals("0"))
@@ -1428,18 +1529,30 @@ private static int getValidElement(Scanner scanner, int index, String arrayName)
                     col = Integer.parseInt(input) - 1;
                 } catch (NumberFormatException e) {
                     System.out.println(RED + "Invalid input. Please enter a number." + RESET);
+                    System.out.println(RED + "Press Enter to continue..." + RESET);
+                    scanner.nextLine();
+                    clearScreen();
+                    printBoard(board, rows, cols);
                     continue;
                 }
 
                 if (col < 0 || col >= cols)
                 {
                     System.out.println(RED + "Column out of range. Try again." + RESET);
+                    System.out.println(RED + "Press Enter to continue..." + RESET);
+                    scanner.nextLine();
+                    clearScreen();
+                    printBoard(board, rows, cols);
                     continue;
                 }
 
                 if (board[0][col] != ' ')
                 {
                     System.out.println(RED + "That column is full. Try another one." + RESET);
+                    System.out.println(RED + "Press Enter to continue..." + RESET);
+                    scanner.nextLine();
+                    clearScreen();
+                    printBoard(board, rows, cols);
                     continue;
                 }
 
@@ -1449,12 +1562,16 @@ private static int getValidElement(Scanner scanner, int index, String arrayName)
                 if (checkWinner(board, playerSymbol))
                 {
                     System.out.println(GREEN + "You win! 🎉" + RESET);
+                    System.out.println(RED + "Press Enter to continue..." + RESET);
+                    scanner.nextLine();
                     break;
                 }
 
                 if (isBoardFull(board))
                 {
                     System.out.println(YELLOW + "It's a draw!" + RESET);
+                    System.out.println(RED + "Press Enter to continue..." + RESET);
+                    scanner.nextLine();
                     break;
                 }
 
@@ -1484,12 +1601,16 @@ private static int getValidElement(Scanner scanner, int index, String arrayName)
                 if (checkWinner(board, computerSymbol))
                 {
                     System.out.println(RED + "Computer wins! 💻" + RESET);
+                    System.out.println(RED + "Press Enter to continue..." + RESET);
+                    scanner.nextLine();
                     break;
                 }
 
                 if (isBoardFull(board))
                 {
                     System.out.println(YELLOW + "It's a draw!" + RESET);
+                    System.out.println(RED + "Press Enter to continue..." + RESET);
+                    scanner.nextLine();
                     break;
                 }
 
