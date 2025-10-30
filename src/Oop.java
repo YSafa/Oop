@@ -828,6 +828,17 @@ public class Oop
             char c1 = expr.charAt(i);
             char c2 = expr.charAt(i+1);
 
+            if (Character.isDigit(c1) && c2 == '(')
+            {
+                System.out.println("Invalid expression: number cannot be directly followed by '(' ");
+                return false;
+            }
+            if (c1 == ')' && Character.isDigit(c2))
+            {
+                System.out.println("Invalid expression: ')' cannot be directly followed by a number");
+                return false;
+            }
+
             if(operators.indexOf(c1) != -1 && operators.indexOf(c2) != -1){
                 //eğer c2 negatif işaretse ve baştaysa, geçerli olacak
                 if(!(c2 == '-' && (i == 0 || expr.charAt(i-1) == '('))){
