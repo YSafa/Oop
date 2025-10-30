@@ -414,13 +414,14 @@ public class Oop
 
         int i = 0;
 
-        while(i < str.length() && !Character.isLetter(str.charAt(i))){ //harf olmayanları stringe ekle
+
+        while(i < str.length() && !isTurkishLetter(str.charAt(i))) { //harf olmayanları stringe ekle
             answer.append(str.charAt(i));
             i++;
         }
 
         int j = i;
-        while(j < str.length() && Character.isLetter(str.charAt(j))) //kelimenin sonunu bulacak
+        while(j < str.length() && isTurkishLetter(str.charAt(j))) //kelimenin sonunu bulacak
             j++;
 
         String word = str.substring(i,j);
@@ -435,6 +436,10 @@ public class Oop
 
     }
 
+    public static boolean isTurkishLetter(char c) {
+        return Character.isLetter(c) ||
+                "çğıöşüÇĞİÖŞÜ".indexOf(c) >= 0;
+    }
 
 
     //  ------------------------- B SECONDARY SCHOOL  -------------------------
