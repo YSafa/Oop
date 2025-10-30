@@ -1269,11 +1269,15 @@ public class Oop
             }
         }
 
-
+        clearScreen();
+        System.out.println(RED + "===============================================" + RESET);
+        System.out.println(YELLOW + "                  Results ");
+        System.out.println(RED + "===============================================" + RESET);
         System.out.println(PURPLE + "The arithmetic mean of array is: " + RESET + YELLOW + arithmeticMean(arr,n) + RESET);
         System.out.println(PURPLE + "The geometric mean of array is: " + RESET + YELLOW + geometricMean(arr,n) + RESET);
         System.out.println(PURPLE + "The harmonic mean of array is: " + RESET + YELLOW + n / harmonicSum(arr,0) + RESET);
         System.out.println(PURPLE + "The median of array is: " + RESET + YELLOW +median(arr,n) + RESET);
+        System.out.println(BLUE + "-----------------------------------------------" + RESET);
 
         scanner.nextLine();
     }
@@ -1674,6 +1678,8 @@ private static int getValidElement(Scanner scanner, int index, String arrayName)
             if (input.equals("0"))
             {
                 System.out.println(RED + "Player " + currentPlayer + " forfeited the game." + RESET);
+                System.out.println(RED + "Press Enter to continue..." + RESET);
+                scanner.nextLine();
                 break;
             }
 
@@ -1800,6 +1806,8 @@ private static int getValidElement(Scanner scanner, int index, String arrayName)
                 if (input.equals("0"))
                 {
                     System.out.println(RED + "You forfeited the game." + RESET);
+                    System.out.println(RED + "Press Enter to continue..." + RESET);
+                    scanner.nextLine();
                     break;
                 }
 
