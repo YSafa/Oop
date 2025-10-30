@@ -845,6 +845,10 @@ public class Oop
             if (Character.isDigit(c))
                 return true;
         }
+        for(char c : expr.toCharArray()){
+            if (Character.isDigit(c))
+                return true;
+        }
 
         return false;
     }
@@ -853,8 +857,12 @@ public class Oop
 
         expr = expr.replaceAll(" ", "");
 
-        if(!expr.contains("(") && !expr.contains(")"))
-            return evaluateSimple(expr);
+
+        if(!expr.contains("(") && !expr.contains(")")){
+            int finalresult = evaluateSimple(expr);
+            System.out.println("= " + finalresult);
+            return finalresult;
+        }
 
         int lastParanthesis = 0;
         for(int i = 0;i < expr.length();i++){
@@ -896,11 +904,7 @@ public class Oop
         expr = expr.replaceAll(" ", "");
 
 
-        if(!expr.contains("(") && !expr.contains(")")) {
-            int result = evaluateSimple(expr);
-            System.out.println("= " + result); // Sonucu ekrana yazdır
-            return result; // Sonucu döndür
-        }
+        if (expr.startsWith("(-")) expr = "0" + expr;
 
         // sayıları ve operatörleri tutacak
         ArrayList<Integer> numbers = new ArrayList<>();
