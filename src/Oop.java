@@ -759,7 +759,8 @@ public class Oop
             expr = scanner.nextLine();
             if(checkEmpty(expr) || !checkParanthesis(expr)
                     || !checkValidChars(expr)
-                    || !checkValidOperators(expr)){
+                    || !checkValidOperators(expr)
+                    || !checkIfNoNumbers(expr)){
                 System.out.println("Invalid expression. Please try again...");
             }
             else{
@@ -839,6 +840,14 @@ public class Oop
         return true;
 
     }
+    public static boolean checkIfNoNumbers(String expr){
+        for(char c : expr.toCharArray()){
+            if (Character.isDigit(c))
+                return true;
+        }
+
+        return false;
+    }
 
     public static int expression(String expr){
 
@@ -887,7 +896,11 @@ public class Oop
         expr = expr.replaceAll(" ", "");
 
 
-        if (expr.startsWith("(-")) expr = "0" + expr;
+        if(!expr.contains("(") && !expr.contains(")")) {
+            int result = evaluateSimple(expr);
+            System.out.println("= " + result); // Sonucu ekrana yazdır
+            return result; // Sonucu döndür
+        }
 
         // sayıları ve operatörleri tutacak
         ArrayList<Integer> numbers = new ArrayList<>();
