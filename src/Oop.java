@@ -1003,6 +1003,11 @@ public class Oop
                 System.out.println(RED + "Invalid expression: ')' cannot be directly followed by a number" + RESET);
                 return false;
             }
+            if(c1 == ')' && c2 == '(')
+            {
+                System.out.println(RED + "Invalid expression: ')' cannot be directly followed by '('" + RESET);
+                return false;
+            }
 
             if(operators.indexOf(c1) != -1 && operators.indexOf(c2) != -1){
                 //eğer c2 negatif işaretse ve baştaysa, geçerli olacak
@@ -1122,7 +1127,12 @@ public class Oop
             else {
                 // Eğer elimizde geçerli bir sayı varsa ekle
                 if (!num.isEmpty() && !num.equals("-")) {
-                    numbers.add(Integer.parseInt(num));
+                    try {
+                        numbers.add(Integer.parseInt(num));
+                    } catch (NumberFormatException e) {
+                        System.out.println(RED + "Error: The number '" + num + "' is larger than INT_MAX or smaller than INT_MIN." + RESET);
+                        return Integer.MIN_VALUE;
+                    }
                     num = "";
                 }
                 // Operatörü ekle
@@ -1131,7 +1141,12 @@ public class Oop
 
         }
         if (!num.isEmpty() && !num.equals("-")) {
-            numbers.add(Integer.parseInt(num));
+            try {
+                numbers.add(Integer.parseInt(num));
+            } catch (NumberFormatException e) {
+                System.out.println(RED + "Error: The number '" + num + "' is larger than INT_MAX or smaller than INT_MIN." + RESET);
+                return Integer.MIN_VALUE; // Hata durumunu belirtmek için özel bir değer döndür
+            }
         }
 
 
